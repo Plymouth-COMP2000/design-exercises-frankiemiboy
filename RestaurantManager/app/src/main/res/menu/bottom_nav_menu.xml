@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuNav_Button"
+        android:title="Menu"
+        android:icon="@drawable/menu_vector_asset"/>
+
+    <item
+        android:id="@+id/reservationNav_Button"
+        android:title="Reservations"
+        android:icon="@drawable/reservation_vector_asset"/>
+
+    <item
+        android:id="@+id/homeNav_Button"
+        android:title="Home"
+        android:icon="@drawable/home_vector_asset"/>
+
+    <item
+        android:id="@+id/notificationsNav_Button"
+        android:title="Notifications"
+        android:icon="@drawable/notifications_vector_asset"/>
+
+    <item
+        android:id="@+id/accountNav_Button"
+        android:title="Account"
+        android:icon="@drawable/manage_account_vector_asset"/>
+
+</menu>
