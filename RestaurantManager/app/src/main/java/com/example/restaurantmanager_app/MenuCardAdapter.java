@@ -12,18 +12,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-// Model class for the data to be displayed in each item
-import com.example.restaurantmanager_app.models.SimpleItem;
+// Model class for a Menu Item
+class MenuItem {
+    private int imageResId;  // Image resource ID
+    private String title;    // Title text
+
+    public MenuItem(int imageResId, String title) {
+        this.imageResId = imageResId;
+        this.title = title;
+    }
+
+    public int getImageResId() {
+        return imageResId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
 
 
-
-public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemViewHolder> {
+public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemViewHolder> {
 
     private Context context;
-    private List<SimpleItem> itemList;
+    private List<MenuItem> itemList;
 
 
-    public HomeCardAdapter(Context context, List<SimpleItem> itemList) {
+    public MenuCardAdapter(Context context, List<MenuItem> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -32,7 +47,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemVi
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.home_card, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.menu_item_card, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -40,13 +55,11 @@ public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemVi
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
 
         // Get the current item
-        SimpleItem item = itemList.get(position);
+        MenuItem item = itemList.get(position);
 
         // Bind data to the views
         holder.imageView.setImageResource(item.getImageResId());
         holder.titleView.setText(item.getTitle());
-        holder.descriptionView.setText(item.getDescription());
-
     }
 
     @Override
@@ -59,13 +72,11 @@ public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemVi
     class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleView;
-        TextView descriptionView;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.homeItemImage);
-            titleView = itemView.findViewById(R.id.homeItemTitle);
-            descriptionView = itemView.findViewById(R.id.homeItemDescription);
+            imageView = itemView.findViewById(R.id.menuItemImage);
+            titleView = itemView.findViewById(R.id.menuItemTitle);
         }
     }
 }
