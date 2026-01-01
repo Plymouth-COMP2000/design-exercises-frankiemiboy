@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RestaurantManager_App">
         <activity
-            android:name=".MainActivity"
+            android:name=".MenuPageLogic"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

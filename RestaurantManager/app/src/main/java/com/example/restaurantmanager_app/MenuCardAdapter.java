@@ -10,35 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.models.ShortMenuItem;
+
 import java.util.List;
-
-// Model class for a Menu Item
-class MenuItem {
-    private int imageResId;  // Image resource ID
-    private String title;    // Title text
-
-    public MenuItem(int imageResId, String title) {
-        this.imageResId = imageResId;
-        this.title = title;
-    }
-
-    public int getImageResId() {
-        return imageResId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-}
 
 
 public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemViewHolder> {
 
     private Context context;
-    private List<MenuItem> itemList;
+    private List<ShortMenuItem> itemList;
 
 
-    public MenuCardAdapter(Context context, List<MenuItem> itemList) {
+    public MenuCardAdapter(Context context, List<ShortMenuItem> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -55,7 +38,7 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
 
         // Get the current item
-        MenuItem item = itemList.get(position);
+        ShortMenuItem item = itemList.get(position);
 
         // Bind data to the views
         holder.imageView.setImageResource(item.getImageResId());
