@@ -1,3 +1,4 @@
+
 package com.example.restaurantmanager_app;
 
 import android.content.Context;
@@ -10,22 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restaurantmanager_app.models.ShortMenuItem;
+import com.example.restaurantmanager_app.data.menu.MenuItem;
 
 import java.util.List;
-
 
 public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemViewHolder> {
 
     private Context context;
-    private List<ShortMenuItem> itemList;
+    private List<MenuItem> itemList;
 
-
-    public MenuCardAdapter(Context context, List<ShortMenuItem> itemList) {
+    public MenuCardAdapter(Context context, List<MenuItem> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
-
 
     @NonNull
     @Override
@@ -36,13 +34,12 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        MenuItem item = itemList.get(position);
 
-        // Get the current item
-        ShortMenuItem item = itemList.get(position);
-
-        // Bind data to the views
-        holder.imageView.setImageResource(item.getImageResId());
+        holder.imageView.setImageResource(context.getResources().getIdentifier(item.getImageUri(), "drawable", context.getPackageName()));
         holder.titleView.setText(item.getTitle());
+        holder.descriptionView.setText(item.getDescription());
+        holder.priceView.setText(String.format("£%.2f", item.getPrice()));
     }
 
     @Override
@@ -50,16 +47,18 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
         return itemList.size();
     }
 
-
-    // ViewHolder class that holds references to the views for each item
     class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleView;
+        TextView descriptionView;
+        TextView priceView;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.menuItemImage);
             titleView = itemView.findViewById(R.id.menuItemTitle);
+            descriptionView = itemView.findViewById(R.id.menuItemDescription);
+            priceView = itemView.findViewById(R.id.menuItemPrice);
         }
     }
 }

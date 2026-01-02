@@ -15,7 +15,7 @@ public class MenuItemDao {
     public static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "name TEXT NOT NULL," +
+            "title TEXT NOT NULL," +
             "description TEXT," +
             "price REAL NOT NULL," +
             "image TEXT," +
@@ -42,14 +42,14 @@ public class MenuItemDao {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
                 double price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"));
                 String image = cursor.getString(cursor.getColumnIndexOrThrow("image"));
                 boolean isVegan = cursor.getInt(cursor.getColumnIndexOrThrow("is_vegan")) == 1;
                 boolean isAvailable = cursor.getInt(cursor.getColumnIndexOrThrow("is_available")) == 1;
 
-                MenuItem menuItem = new MenuItem(id, name, description, price, image, isVegan, isAvailable);
+                MenuItem menuItem = new MenuItem(id, title, description, price, image, isVegan, isAvailable);
                 menuItems.add(menuItem);
             } while (cursor.moveToNext());
         }
@@ -69,14 +69,14 @@ public class MenuItemDao {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
                 double price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"));
                 String image = cursor.getString(cursor.getColumnIndexOrThrow("image"));
                 boolean isVegan = cursor.getInt(cursor.getColumnIndexOrThrow("is_vegan")) == 1;
                 boolean isAvailable = cursor.getInt(cursor.getColumnIndexOrThrow("is_available")) == 1;
 
-                MenuItem menuItem = new MenuItem(id, name, description, price, image, isVegan, isAvailable);
+                MenuItem menuItem = new MenuItem(id, title, description, price, image, isVegan, isAvailable);
                 menuItems.add(menuItem);
             } while (cursor.moveToNext());
         }

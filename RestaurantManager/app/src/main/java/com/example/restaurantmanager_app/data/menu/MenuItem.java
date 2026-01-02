@@ -2,19 +2,19 @@ package com.example.restaurantmanager_app.data.menu;
 
 public class MenuItem {
     private int menuItemId;
-    private String name;
+    private String title;
     private String description;
     private double price;
     private String imageUri;
     private boolean isVegan;
     private boolean isAvailable;
 
-    public MenuItem(int menuItemId, String name,
+    public MenuItem(int menuItemId, String title,
                     String description, double price,
                     String imageUri, boolean isVegan, boolean isAvailable) {
 
         this.menuItemId = menuItemId;
-        this.name = name;
+        this.title = title;
         this.description = description;
         this.price = price;
         this.imageUri = imageUri;
@@ -24,7 +24,7 @@ public class MenuItem {
 
     // Getters only (for now)
     public int getMenuItemId() { return menuItemId; }
-    public String getName() { return name; }
+    public String getTitle() { return title; }
     public String getDescription() { return description; }
     public double getPrice() { return price; }
     public String getImageUri() { return imageUri; }

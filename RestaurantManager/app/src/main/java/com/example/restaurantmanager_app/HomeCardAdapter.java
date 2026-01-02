@@ -1,3 +1,4 @@
+
 package com.example.restaurantmanager_app;
 
 import android.content.Context;
@@ -10,24 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
-// Model class for the data to be displayed in each item
 import com.example.restaurantmanager_app.models.SimpleItem;
 
-
+import java.util.List;
 
 public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemViewHolder> {
 
     private Context context;
     private List<SimpleItem> itemList;
 
-
     public HomeCardAdapter(Context context, List<SimpleItem> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
-
 
     @NonNull
     @Override
@@ -38,15 +34,13 @@ public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-
         // Get the current item
         SimpleItem item = itemList.get(position);
 
-        // Bind data to the views
+        // Bind the data to the views
         holder.imageView.setImageResource(item.getImageResId());
         holder.titleView.setText(item.getTitle());
         holder.descriptionView.setText(item.getDescription());
-
     }
 
     @Override
@@ -54,8 +48,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemVi
         return itemList.size();
     }
 
-
-    // ViewHolder class that holds references to the views for each item
+    // ViewHolder class that holds references to the views for each item component
     class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleView;

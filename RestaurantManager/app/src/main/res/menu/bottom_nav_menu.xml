@@ -2,28 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menuNav_Button"
+        android:id="@+id/menuFragment"
         android:title="Menu"
         android:icon="@drawable/menu_vector_asset"/>
 
     <item
-        android:id="@+id/reservationNav_Button"
+        android:id="@+id/reservationsFragment"
         android:title="Reservations"
         android:icon="@drawable/reservation_vector_asset"/>
 
     <item
-        android:id="@+id/homeNav_Button"
+        android:id="@+id/homeFragment"
         android:title="Home"
         android:icon="@drawable/home_vector_asset"/>
 
     <item
-        android:id="@+id/notificationsNav_Button"
+        android:id="@+id/notificationsFragment"
         android:title="Notifications"
         android:icon="@drawable/notifications_vector_asset"/>
 
     <item
-        android:id="@+id/accountNav_Button"
-        android:title="Account"
-        android:icon="@drawable/manage_account_vector_asset"/>
+        android:id="@+id/settingsFragment"
+        android:title="Settings"
+        android:icon="@drawable/settings_vector_asset"/>
 
 </menu>

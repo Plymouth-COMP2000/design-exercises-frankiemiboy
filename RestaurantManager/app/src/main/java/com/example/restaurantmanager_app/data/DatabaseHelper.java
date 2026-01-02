@@ -1,3 +1,4 @@
+
 package com.example.restaurantmanager_app.data;
 
 import android.content.ContentValues;
@@ -5,11 +6,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.menu.MenuItemDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "restaurant.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -30,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Margherita Pizza",
                 "Classic cheese and tomato pizza",
                 8.99,
-                "pizza_margherita",
+                "prototype_image",
                 1
         );
 
@@ -38,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Spaghetti Carbonara",
                 "Creamy pasta with bacon and parmesan",
                 10.50,
-                "carbonara",
+                "prototype_image",
                 1
         );
 
@@ -46,18 +48,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Caesar Salad",
                 "Romaine lettuce with Caesar dressing",
                 6.75,
-                "caesar_salad",
+                "prototype_image",
                 1
         );
     }
 
-    private void insertMenuItem(SQLiteDatabase db, String name, String description, double price, String image, int isVegan) {
+    private void insertMenuItem(SQLiteDatabase db, String title, String description, double price, String image, int isVegan) {
         ContentValues values = new ContentValues();
-        values.put("name", name);
+        values.put("title", title);
         values.put("description", description);
         values.put("price", price);
         values.put("image", image);
         values.put("is_vegan", isVegan);
+        values.put("is_available", 1);
 
         db.insert(MenuItemDao.TABLE_NAME, null, values);
 
