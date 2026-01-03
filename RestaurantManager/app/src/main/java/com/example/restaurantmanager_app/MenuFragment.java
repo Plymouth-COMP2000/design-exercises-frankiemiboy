@@ -24,4 +24,5 @@ public class MenuFragment extends Fragment {
         MenuRecyclerViewManager menuRecyclerViewManager = new MenuRecyclerViewManager();
         menuRecyclerViewManager.setup(view, getContext());
     }
+
 }

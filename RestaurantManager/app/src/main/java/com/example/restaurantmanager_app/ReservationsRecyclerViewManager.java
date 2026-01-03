@@ -1,33 +1,34 @@
-
 package com.example.restaurantmanager_app;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.restaurantmanager_app.data.DatabaseHelper;
-import com.example.restaurantmanager_app.data.menu.MenuItem;
-import com.example.restaurantmanager_app.data.menu.MenuItemDao;
+import com.example.restaurantmanager_app.data.reservation.Reservation;
+import com.example.restaurantmanager_app.data.reservation.ReservationDao;
+
 import java.util.List;
 
-public class MenuRecyclerViewManager {
-
+public class ReservationsRecyclerViewManager {
     private RecyclerView recyclerView;
-    private MenuCardAdapter adapter;
+    private ReservationsCardAdapter adapter;
 
     public void setup(View rootView, Context context) {
         DatabaseHelper dbHelper = new DatabaseHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        MenuItemDao menuItemDao = new MenuItemDao(context);
-        List<MenuItem> fullMenu = menuItemDao.getAllMenuItems();
+        ReservationDao reservationDao = new ReservationDao(context);
+        List<Reservation> reservations = reservationDao.getAllReservations();
         db.close();
 
-        recyclerView = rootView.findViewById(R.id.menu_RecyclerView);
+        recyclerView = rootView.findViewById(R.id.reservation_RecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
 
-        adapter = new MenuCardAdapter(context, fullMenu);
+        adapter = new ReservationsCardAdapter(context, reservations);
         recyclerView.setAdapter(adapter);
     }
 }

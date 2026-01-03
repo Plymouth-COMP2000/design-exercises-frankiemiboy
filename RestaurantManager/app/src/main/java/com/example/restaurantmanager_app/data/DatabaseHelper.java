@@ -8,10 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.menu.MenuItemDao;
+import com.example.restaurantmanager_app.data.notification.NotificationDao;
+import com.example.restaurantmanager_app.data.reservation.ReservationDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "restaurant.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -21,9 +23,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Create tables and populate with sample data;
         db.execSQL(MenuItemDao.CREATE_TABLE_QUERY);
-        //db.execSQL(ReservationDao.CREATE_TABLE_QUERY);
-        //db.execSQL(NotificationDao.CREATE_TABLE_QUERY);
+        db.execSQL(ReservationDao.CREATE_TABLE_QUERY);
+        db.execSQL(NotificationDao.CREATE_TABLE_QUERY);
         insertDummyMenuItems(db);
+        insertDummyReservations(db);
+        insertDummyNotifications(db);
     }
 
     private void insertDummyMenuItems(SQLiteDatabase db) {
@@ -53,6 +57,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
+    private void insertDummyNotifications(SQLiteDatabase db) {
+        // Insert dummy notifications;
+        insertNotification(db,
+                1,
+                "Reservation Confirmation",
+                "Your reservation has been confirmed!",
+                "2023-08-25 10:30:00",
+                "2023-08-25 10:30:00"
+        );
+
+        insertNotification(db,
+                2,
+                "New Menu Item",
+                "We've added a new item to our menu!",
+                "2023-08-29 11:45:00",
+                "2023-08-29 11:45:00"
+        );
+
+        insertNotification(db,
+                3,
+                "Reservation Cancellation",
+                "Your reservation has been cancelled.",
+                "2023-08-27 12:05:00",
+                "2023-08-27 12:05:00"
+        );
+
+    }
+
+    private void insertDummyReservations(SQLiteDatabase db) {
+        // Insert dummy reservations;
+        insertReservation(db,
+                1,
+                "2023-08-25",
+                "18:30",
+                4,
+                "confirmed",
+                "2023-08-25 10:30:00",
+                "2023-08-25 10:30:00");
+
+        insertReservation(db,
+                2,
+                "2023-08-26",
+                "19:00",
+                2,
+                "confirmed",
+                "2023-08-26 11:45:00",
+                "2023-08-26 11:45:00");
+
+        insertReservation(db,
+                3,
+                "2023-08-29",
+                "20:15",
+                6,
+                "confirmed",
+                "2023-08-29 12:05:00",
+                "2023-08-29 12:05:00");
+    }
+
+
     private void insertMenuItem(SQLiteDatabase db, String title, String description, double price, String image, int isVegan) {
         ContentValues values = new ContentValues();
         values.put("title", title);
@@ -63,15 +126,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("is_available", 1);
 
         db.insert(MenuItemDao.TABLE_NAME, null, values);
+    }
 
+    private void insertNotification(SQLiteDatabase db, int userId, String title, String message, String createdAt, String lastModified) {
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("title", title);
+        values.put("message", message);
+        values.put("created_at", createdAt);
+        values.put("last_modified", lastModified);
+
+        db.insert(NotificationDao.TABLE_NAME, null, values);
+    }
+
+    private void insertReservation(SQLiteDatabase db, int userId, String reservationDate, String reservationTime, int partySize, String status, String createdAt, String lastModified) {
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("reservation_date", reservationDate);
+        values.put("reservation_time", reservationTime);
+        values.put("party_size", partySize);
+        values.put("status", status);
+        values.put("created_at", createdAt);
+        values.put("last_modified", lastModified);
+
+        db.insert(ReservationDao.TABLE_NAME, null, values);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Handle database upgrades if needed;
         db.execSQL("DROP TABLE IF EXISTS " + MenuItemDao.TABLE_NAME);
-        //db.execSQL("DROP TABLE IF EXISTS " + ReservationDao.TABLE_NAME);
-        //db.execSQL("DROP TABLE IF EXISTS " + NotificationDao.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ReservationDao.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + NotificationDao.TABLE_NAME);
         onCreate(db);
     }
 }

@@ -19,4 +19,13 @@ public class Notification {
         this.created_at = created_at;
     }
 
+    // The getter functions
+    public int getNotificationId() { return notificationId; }
+    public int getUserId() { return userId; }
+    public int getReservationId() { return reservationId; }
+    public String getTitle() { return Title; }
+    public String getMessage() { return message; }
+    public int getIsRead() { return is_read; }
+    public String getCreatedAt() { return created_at; }
+
 }
