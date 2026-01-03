@@ -44,14 +44,24 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
-            android:id="@+id/partySize"
+            android:id="@+id/partySizeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="12dp"
-            android:text="Party Size: 12"
+            android:text="Party Size: "
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/reservationDate" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/partySize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/partySizeLabel" />
 
         <TextView
             android:id="@+id/editReservation"

@@ -1,3 +1,4 @@
+
 package com.example.restaurantmanager_app;
 
 import android.content.Context;
@@ -33,9 +34,9 @@ public class ReservationsCardAdapter extends RecyclerView.Adapter<ReservationsCa
     public void onBindViewHolder(@NonNull ReservationsCardAdapter.ItemViewHolder holder, int position) {
         Reservation reservation = reservations.get(position);
 
-        holder.dateView.setText(reservation.getCreated_at());
+        holder.dateView.setText(reservation.getReservation_date());
         holder.timeView.setText(reservation.getReservation_time());
-        holder.partySizeView.setText(reservation.getParty_size());
+        holder.partySizeView.setText(String.valueOf(reservation.getParty_size()));
     }
 
     @Override
@@ -56,4 +57,3 @@ public class ReservationsCardAdapter extends RecyclerView.Adapter<ReservationsCa
         }
     }
 }
-
