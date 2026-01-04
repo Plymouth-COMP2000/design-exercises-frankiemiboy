@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantmanager_app.data.menu.MenuItem;
@@ -40,6 +41,14 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
         holder.titleView.setText(item.getTitle());
         holder.descriptionView.setText(item.getDescription());
         holder.priceView.setText(String.format("£%.2f", item.getPrice()));
+
+        // Set a click listener on the item view.
+        holder.itemView.setOnClickListener(v -> {
+            // When the item is clicked, create a new instance of the MenuItemDetailsDialog and show it.
+            // We pass the MenuItem to the newInstance method, which will be displayed in the dialog.
+            // We also need to get the FragmentManager from the context to show the dialog.
+            MenuItemDetailsDialog.newInstance(item).show(((AppCompatActivity) context).getSupportFragmentManager(), "menu_item_details_dialog");
+        });
     }
 
     @Override

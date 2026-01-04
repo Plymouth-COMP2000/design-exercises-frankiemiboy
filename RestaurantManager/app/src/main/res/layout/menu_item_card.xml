@@ -63,6 +63,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:text="Menu item description"
+            android:maxLines="3"
             app:layout_constraintTop_toBottomOf="@+id/menuItemTitle"
             app:layout_constraintStart_toEndOf="@id/menuItemImage"
             app:layout_constraintEnd_toStartOf="@id/viewItemText_link" />

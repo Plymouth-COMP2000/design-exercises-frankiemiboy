@@ -2,9 +2,11 @@
 package com.example.restaurantmanager_app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +17,19 @@ public class MenuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_menu, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
+
+        Button createReservationButton = view.findViewById(R.id.menu_createReservationButton);
+        createReservationButton.setOnClickListener(v -> {
+            CreateReservationDialog dialog = CreateReservationDialog.newInstance();
+            dialog.setListener((name, date, time, guests) -> {
+                Log.d("Reservation", name + " " + date + " " + time + " " + guests);
+            });
+
+            dialog.show(getParentFragmentManager(), "create_reservation");
+        });
+
+        return view;
     }
 
     @Override

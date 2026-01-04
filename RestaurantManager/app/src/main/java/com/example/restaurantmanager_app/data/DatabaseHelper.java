@@ -8,11 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.restaurantmanager_app.data.menu.MenuItemDao;
 import com.example.restaurantmanager_app.data.notification.NotificationDao;
+import com.example.restaurantmanager_app.data.notification.NotificationPreferenceDao;
 import com.example.restaurantmanager_app.data.reservation.ReservationDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "restaurant.db";
-    private static final int DB_VERSION = 5; // Incremented version
+    private static final int DB_VERSION = 6; // Incremented version
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -24,6 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(MenuItemDao.CREATE_TABLE_QUERY);
         db.execSQL(ReservationDao.CREATE_TABLE_QUERY);
         db.execSQL(NotificationDao.CREATE_TABLE_QUERY);
+        db.execSQL(NotificationPreferenceDao.CREATE_TABLE_QUERY);
+
         insertDummyMenuItems(db);
         insertDummyReservations(db);
         insertDummyNotifications(db);
@@ -88,6 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + MenuItemDao.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ReservationDao.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + NotificationDao.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + NotificationPreferenceDao.TABLE_NAME);
         onCreate(db);
     }
 }
