@@ -13,7 +13,7 @@ import com.example.restaurantmanager_app.data.reservation.ReservationDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "restaurant.db";
-    private static final int DB_VERSION = 6; // Incremented version
+    private static final int DB_VERSION = 8; // Incremented version
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertDummyMenuItems(db);
         insertDummyReservations(db);
         insertDummyNotifications(db);
+        insertDummyNotificationPreferences(db);
     }
 
     private void insertDummyMenuItems(SQLiteDatabase db) {
@@ -43,6 +44,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertNotification(db, 1, 1, "Reservation Confirmation", "Your reservation has been confirmed!", "2023-08-25 10:30:00");
         insertNotification(db, 2, 2, "New Menu Item", "We've added a new item to our menu!", "2023-08-29 11:45:00");
         insertNotification(db, 3, 3, "Reservation Cancellation", "Your reservation has been cancelled.", "2023-08-27 12:05:00");
+    }
+
+    private void insertDummyNotificationPreferences(SQLiteDatabase db) {
+        // Corrected dummy notification preferences
+        insertNotificationPreference(db, 1, "Cancelled Reservation", 1);
+        insertNotificationPreference(db, 2, "New Reservation", 1);
+        insertNotificationPreference(db, 3, "Reservation Confirmation", 0);
+        insertNotificationPreference(db, 3, "New Menu Item", 0);
+        insertNotificationPreference(db, 2, "Cancelled Reservation", 0);
     }
 
     private void insertDummyReservations(SQLiteDatabase db) {
@@ -73,7 +83,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(NotificationDao.TABLE_NAME, null, values);
     }
 
-    private void insertReservation(SQLiteDatabase db, int userId, String reservationDate, String reservationTime, int partySize, String status, String createdAt, String lastModified) {
+    private void insertReservation(
+            SQLiteDatabase db, int userId, String reservationDate,
+            String reservationTime, int partySize, String status,
+            String createdAt, String lastModified
+    ) {
         ContentValues values = new ContentValues();
         values.put("user_id", userId);
         values.put("reservation_date", reservationDate);
@@ -84,6 +98,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("last_modified", lastModified);
         db.insert(ReservationDao.TABLE_NAME, null, values);
     }
+
+    private void insertNotificationPreference(SQLiteDatabase db, int userId, String notificationType, int enabled) {
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("notification_type", notificationType);
+        values.put("enabled", enabled);
+        db.insert(NotificationPreferenceDao.TABLE_NAME, null, values);
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

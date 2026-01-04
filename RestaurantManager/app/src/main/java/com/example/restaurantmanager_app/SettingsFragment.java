@@ -9,13 +9,32 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        Button editButton = view.findViewById(R.id.editButton);
+        Button saveButton = view.findViewById(R.id.saveButton);
+        TextView manageNotifications = view.findViewById(R.id.manageNotifications);
+        TextView changePassword = view.findViewById(R.id.changePassword);
+        TextView logout = view.findViewById(R.id.logout);
+        TextView deleteAccount = view.findViewById(R.id.deleteAccount);
+
+        manageNotifications.setOnClickListener(v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, new NotificationPreferenceFragment())
+                    .addToBackStack(null)
+                    .commit();
+
+        });
+
+        return view;
     }
 
     @Override

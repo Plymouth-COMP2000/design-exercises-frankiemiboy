@@ -3,22 +3,25 @@ package com.example.restaurantmanager_app.data.notification;
 public class NotificationPreference {
     private int preferenceId;
     private int userId;
-    private int new_reservation;
-    private int reservation_cancelled;
-    private int reservation_changed;
+    private String notificationType;
+    private int enabled;
 
-    public NotificationPreference(int preferenceId, int userId, int new_reservation_notification, int reservation_cancelled_notification, int reservation_changed_notification) {
+    public NotificationPreference(int preferenceId, int userId, String reservationType, int enabled) {
         this.preferenceId = preferenceId;
         this.userId = userId;
-        this.new_reservation = new_reservation_notification;
-        this.reservation_cancelled = reservation_cancelled_notification;
-        this.reservation_changed = reservation_changed_notification;
+        this.notificationType = reservationType;
+        this.enabled = enabled;
     }
 
+    // Getter Methods
     public int getPreferenceId() { return preferenceId; }
     public int getUserId() { return userId; }
-    public int getNew_reservation() { return new_reservation; }
-    public int getReservation_cancelled() { return reservation_cancelled; }
-    public int getReservation_changed() { return reservation_changed; }
+    public String getNotificationType() { return notificationType; }
+    public int getEnabled() { return enabled; }
 
+    // Setter Methods
+    public void setPreferenceId(int preferenceId) { this.preferenceId = preferenceId; }
+    public void setUserId(int userId) { this.userId = userId; }
+    public void setNotificationType(String reservationType) { this.notificationType = reservationType; }
+    public void setEnabled(int enabled) { this.enabled = enabled; }
 }

@@ -16,10 +16,9 @@ public class NotificationPreferenceDao {
     public static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "user_id INTEGER NOT NULL UNIQUE," +
-            "new_reservation INTEGER DEFAULT 1 NOT NULL," +
-            "cancelled_reservation INTEGER DEFAULT 1 NOT NULL," +
-            "changed_reservation INTEGER DEFAULT 1 NOT NULL" +
+            "user_id INTEGER NOT NULL," +
+            "notification_type TEXT NOT NULL," +
+            "enabled INTEGER DEFAULT 1 NOT NULL," +
             ")";
 
     private DatabaseHelper dbHelper;
@@ -41,12 +40,12 @@ public class NotificationPreferenceDao {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 int userId = cursor.getInt(cursor.getColumnIndexOrThrow("user_id"));
-                int newReservation = cursor.getInt(cursor.getColumnIndexOrThrow("new_reservation"));
-                int cancelledReservation = cursor.getInt(cursor.getColumnIndexOrThrow("cancelled_reservation"));
-                int changedReservation = cursor.getInt(cursor.getColumnIndexOrThrow("changed_reservation"));
+                String reservationType = cursor.getString(cursor.getColumnIndexOrThrow("new_reservation"));
+                int enabled = cursor.getInt(cursor.getColumnIndexOrThrow("cancelled_reservation"));
 
-                NotificationPreference notificationPreference = new NotificationPreference(id, userId, newReservation, cancelledReservation, changedReservation);
+                NotificationPreference notificationPreference = new NotificationPreference(id, userId, reservationType, enabled);
                 notificationPreferences.add(notificationPreference);
+
             } while (cursor.moveToNext());
         }
 
@@ -55,9 +54,9 @@ public class NotificationPreferenceDao {
     }
 
     // Get a specific user's notification preferences
-    public NotificationPreference getUserNotificationPreferences(int userId) {
+    public List<NotificationPreference> getUserNotificationPreferences(int userId) {
         // Implement the logic to retrieve all notification preferences from the database
-        NotificationPreference notificationPreference = null;
+        List<NotificationPreference> notificationPreferences = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query to retrieve all notification preferences;
@@ -65,15 +64,18 @@ public class NotificationPreferenceDao {
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
 
         if (cursor.moveToFirst()) {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-            int newReservation = cursor.getInt(cursor.getColumnIndexOrThrow("new_reservation"));
-            int cancelledReservation = cursor.getInt(cursor.getColumnIndexOrThrow("cancelled_reservation"));
-            int changedReservation = cursor.getInt(cursor.getColumnIndexOrThrow("changed_reservation"));
+            do{
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String notificationType = cursor.getString(cursor.getColumnIndexOrThrow("notification_type"));
+                int enabled = cursor.getInt(cursor.getColumnIndexOrThrow("enabled"));
 
-            notificationPreference = new NotificationPreference(id, userId, newReservation, cancelledReservation, changedReservation);
+                NotificationPreference notificationPreference = new NotificationPreference(id, userId, notificationType, enabled);
+                notificationPreferences.add(notificationPreference);
+            } while (cursor.moveToNext());
+
         }
 
         cursor.close();
-        return notificationPreference;
+        return notificationPreferences;
     }
 }
