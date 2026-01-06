@@ -1,4 +1,3 @@
-
 package com.example.restaurantmanager_app.data;
 
 import android.content.ContentValues;
@@ -13,7 +12,7 @@ import com.example.restaurantmanager_app.data.reservation.ReservationDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "restaurant.db";
-    private static final int DB_VERSION = 8; // Incremented version
+    private static final int DB_VERSION = 2; // Incremented version
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

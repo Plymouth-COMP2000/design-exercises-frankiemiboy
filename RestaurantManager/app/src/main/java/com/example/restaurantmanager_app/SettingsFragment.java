@@ -1,6 +1,7 @@
 package com.example.restaurantmanager_app;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
+    private static final String TAG = "SettingsFragment";
 
     @Nullable
     @Override
@@ -26,12 +28,9 @@ public class SettingsFragment extends Fragment {
         TextView deleteAccount = view.findViewById(R.id.deleteAccount);
 
         manageNotifications.setOnClickListener(v -> {
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment, new NotificationPreferenceFragment())
-                    .addToBackStack(null)
-                    .commit();
-
+            Log.d(TAG, "manageNotifications clicked. Opening NotificationPreferenceFragment dialog.");
+            NotificationPreferenceFragment dialog = NotificationPreferenceFragment.newInstance();
+            dialog.show(getParentFragmentManager(), "notification_preference_dialog");
         });
 
         return view;

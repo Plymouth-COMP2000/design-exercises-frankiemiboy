@@ -19,12 +19,10 @@ public class NotificationRecyclerViewManager {
     private NotificationCardAdapter adapter;
 
     public void setup(View rootView, Context context) {
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         NotificationDao notificationDao = new NotificationDao(context);
         List<Notification> notifications = notificationDao.getAllNotifications();
-        db.close();
+
 
         recyclerView = rootView.findViewById(R.id.notification_RecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));

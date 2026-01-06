@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage Reservation"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Name -->
+    <EditText
+        android:id="@+id/nameInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Name"
+        android:text="FirstName + LastName"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/dialogTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!--Phone Number-->
+    <EditText
+        android:id="@+id/phoneInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:hint="Phone Number"
+        android:text="PhoneNumber"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/nameInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Date -->
+    <EditText
+        android:id="@+id/dateInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Select Date"
+        android:text="DD/MM/YYYY"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/phoneInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Time -->
+    <EditText
+        android:id="@+id/timeInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Select Time"
+        android:text="HH:MM"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/dateInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Guests -->
+    <EditText
+        android:id="@+id/guestsInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Number of Guests"
+        android:text="#GuestNumber"
+        android:enabled="false"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/timeInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/editReservation"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginLeft="16dp"
+        android:text="Edit Reservation Details"
+        android:textStyle="bold"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/guestsInput"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:text="Confirm"
+        android:backgroundTint="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/editReservation"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/cancelReservation_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="Cancel Reservation"
+        android:backgroundTint="#DB4813"
+        app:layout_constraintTop_toTopOf="@id/confirmButton"
+        app:layout_constraintStart_toEndOf="@id/confirmButton"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

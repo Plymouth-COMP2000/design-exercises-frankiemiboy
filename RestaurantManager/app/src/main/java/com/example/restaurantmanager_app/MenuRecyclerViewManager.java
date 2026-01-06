@@ -2,7 +2,6 @@
 package com.example.restaurantmanager_app;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,12 +16,9 @@ public class MenuRecyclerViewManager {
     private MenuCardAdapter adapter;
 
     public void setup(View rootView, Context context) {
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         MenuItemDao menuItemDao = new MenuItemDao(context);
         List<MenuItem> fullMenu = menuItemDao.getAllMenuItems();
-        db.close();
 
         recyclerView = rootView.findViewById(R.id.menu_RecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
