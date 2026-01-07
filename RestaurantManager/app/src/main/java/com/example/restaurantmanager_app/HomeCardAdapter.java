@@ -11,16 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restaurantmanager_app.models.SimpleItem;
+import com.example.restaurantmanager_app.models.HomeCardItem;
 
 import java.util.List;
 
 public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemViewHolder> {
 
     private Context context;
-    private List<SimpleItem> itemList;
+    private List<HomeCardItem> itemList;
 
-    public HomeCardAdapter(Context context, List<SimpleItem> itemList) {
+    public HomeCardAdapter(Context context, List<HomeCardItem> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -35,12 +35,21 @@ public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemVi
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         // Get the current item
-        SimpleItem item = itemList.get(position);
+        HomeCardItem item = itemList.get(position);
 
         // Bind the data to the views
         holder.imageView.setImageResource(item.getImageResId());
         holder.titleView.setText(item.getTitle());
         holder.descriptionView.setText(item.getDescription());
+
+        // When clicked open the appropriate fragment/page
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity) context;
+                mainActivity.replaceFragment(item.getFragment());
+            }
+        });
     }
 
     @Override

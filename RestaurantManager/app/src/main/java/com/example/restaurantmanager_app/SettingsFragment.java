@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.restaurantmanager_app.user_management.SessionManager;
+
+
 public class SettingsFragment extends Fragment {
     private static final String TAG = "SettingsFragment";
 

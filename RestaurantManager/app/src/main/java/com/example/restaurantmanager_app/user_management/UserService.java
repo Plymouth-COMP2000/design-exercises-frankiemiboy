@@ -1,0 +1,76 @@
+package com.example.restaurantmanager_app.user_management;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.example.restaurantmanager_app.user_management.User;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+// Handles user logic (CRUD Operations)
+
+
+public class UserService {
+
+    private static final String BASE_URL = "http://10.240.72.69/comp2000/coursework";
+
+    private static RequestQueue requestQueue;
+    private static final Gson gson = new Gson();
+
+    private static void initQueue(Context context) {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        }
+    }
+
+    // GET: /read_all_users/{student_id}
+    public static void getAllUsers(
+            Context context,
+            String studentId,
+            UserResponseCallback callback
+    ) {
+        initQueue(context);
+
+        String url = BASE_URL + "/read_all_users/" + studentId;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        JSONArray usersArray = response.getJSONArray("users");
+                        Type listType = new TypeToken<List<User>>() {}.getType();
+                        List<User> users = gson.fromJson(usersArray.toString(), listType);
+                        callback.onSuccess(users);
+                    } catch (Exception e) {
+                        callback.onError("Parsing error");
+                    }
+                },
+                error -> {
+                    Log.e("UserService", error.toString());
+                    callback.onError("API request failed");
+                }
+        );
+
+        requestQueue.add(request);
+    }
+
+    // Callback interface
+    public interface UserResponseCallback {
+        void onSuccess(List<User> users);
+        void onError(String message);
+    }
+}
+

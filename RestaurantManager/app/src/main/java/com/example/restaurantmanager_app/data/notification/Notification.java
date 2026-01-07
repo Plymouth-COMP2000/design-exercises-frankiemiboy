@@ -1,5 +1,7 @@
 package com.example.restaurantmanager_app.data.notification;
 
+
+// The structure of a notification object
 public class Notification {
     private int notificationId;
     private int userId;
