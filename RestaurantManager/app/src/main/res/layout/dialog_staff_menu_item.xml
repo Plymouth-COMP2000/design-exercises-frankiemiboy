@@ -116,14 +116,25 @@
                 app:layout_constraintTop_toBottomOf="@id/itemDescription"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <Button
-                android:id="@+id/edit_saveButton"
+            <TextView
+                android:id="@+id/editMenuItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
-                android:text="Edit"
-                android:backgroundTint="@color/black"
+                android:text="Edit Menu Item"
+                android:textStyle="bold"
+                android:clickable="true"
                 app:layout_constraintTop_toBottomOf="@id/descriptionInput"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="Save"
+                android:backgroundTint="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/editMenuItem"
                 app:layout_constraintStart_toStartOf="parent">
             </Button>
 
@@ -134,8 +145,8 @@
                 android:layout_marginLeft="16dp"
                 android:text="Delete"
                 android:backgroundTint="#DB4813"
-                app:layout_constraintTop_toTopOf="@id/edit_saveButton"
-                app:layout_constraintStart_toEndOf="@id/edit_saveButton">
+                app:layout_constraintTop_toTopOf="@id/saveButton"
+                app:layout_constraintStart_toEndOf="@id/saveButton">
             </Button>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,7 +29,7 @@ public class NotificationPreferenceAdapter extends RecyclerView.Adapter<Notifica
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.notification_preferences_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_notif_preferences_item, parent, false);
         Log.d(TAG, "onCreateViewHolder called");
         return new ItemViewHolder(view);
     }

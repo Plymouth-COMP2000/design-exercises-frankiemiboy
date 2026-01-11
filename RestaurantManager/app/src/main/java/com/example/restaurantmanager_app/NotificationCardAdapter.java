@@ -26,7 +26,7 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.notification_card, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_notification, parent, false);
         return new ItemViewHolder(view);
     }
 

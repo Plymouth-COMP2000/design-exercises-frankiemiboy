@@ -1,7 +1,5 @@
 package com.example.restaurantmanager_app;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -24,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_page);
+        setContentView(R.layout.auth_login_page);
 
         usernameInput = findViewById(R.id.username_emailInput);
         passwordInput = findViewById(R.id.passwordInput);

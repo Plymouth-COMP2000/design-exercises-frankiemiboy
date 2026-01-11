@@ -28,7 +28,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<HomeCardAdapter.ItemVi
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.home_card, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_home, parent, false);
         return new ItemViewHolder(view);
     }
 

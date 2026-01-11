@@ -26,7 +26,7 @@ public class ReservationsCardAdapter extends RecyclerView.Adapter<ReservationsCa
     @NonNull
     @Override
     public ReservationsCardAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.reservation_card, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_reservation, parent, false);
         return new ReservationsCardAdapter.ItemViewHolder(view);
     }
 

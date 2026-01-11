@@ -35,7 +35,7 @@ public class MenuItemDetailsDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_menu_item_details, container, false);
+        View view = inflater.inflate(R.layout.dialog_guest_menu_item, container, false);
 
         // Get references to the views in the dialog layout.
         ImageButton closeButton = view.findViewById(R.id.menu_item_details_closeButton);

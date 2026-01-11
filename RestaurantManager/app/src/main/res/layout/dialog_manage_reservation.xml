@@ -6,15 +6,28 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
+    <!-- Close button -->
+    <ImageButton
+        android:id="@+id/create_reservation_closeButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Close"
+        android:src="@drawable/close_vector_asset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/black"/>
+
     <!-- Title -->
     <TextView
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Manage Reservation"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_reservation_closeButton"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- Name -->
@@ -22,13 +35,13 @@
         android:id="@+id/nameInput"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginTop="16dp"
         android:hint="Name"
         android:text="FirstName + LastName"
         android:enabled="false"
         app:layout_constraintTop_toBottomOf="@id/dialogTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!--Phone Number-->
     <EditText
@@ -86,12 +99,13 @@
     <TextView
         android:id="@+id/editReservation"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_height="32dp"
         android:layout_marginTop="48dp"
         android:layout_marginLeft="16dp"
         android:text="Edit Reservation Details"
         android:textStyle="bold"
         android:clickable="true"
+        android:enabled="false"
         app:layout_constraintTop_toBottomOf="@+id/guestsInput"
         app:layout_constraintStart_toStartOf="parent"/>
 

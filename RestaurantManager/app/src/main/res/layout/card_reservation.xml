@@ -16,10 +16,6 @@
         android:layout_height="100dp"
         android:padding="12dp">
 
-        <!-- Menu item name -->
-
-        <!-- View Item action -->
-
         <TextView
             android:id="@+id/reservationDate"
             android:layout_width="0dp"

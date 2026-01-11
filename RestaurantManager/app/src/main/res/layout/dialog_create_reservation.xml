@@ -6,15 +6,28 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
+    <!-- Close button -->
+    <ImageButton
+        android:id="@+id/manage_reservation_closeButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Close"
+        android:src="@drawable/close_vector_asset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/black"/>
+
     <!-- Title -->
     <TextView
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Create Reservation"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/manage_reservation_closeButton"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- Name -->
@@ -22,11 +35,23 @@
         android:id="@+id/nameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Name"
+        android:hint="Full Name"
         app:layout_constraintTop_toBottomOf="@id/dialogTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
+
+    <!-- Phone Number -->
+    <EditText
+        android:id="@+id/phoneNumberInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Phone Number"
+        android:inputType="phone"
+        app:layout_constraintTop_toBottomOf="@id/nameInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
     <!-- Date -->
     <EditText
@@ -34,7 +59,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Select Date"
-        app:layout_constraintTop_toBottomOf="@id/nameInput"
+        android:inputType="date"
+        app:layout_constraintTop_toBottomOf="@id/phoneNumberInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"/>
@@ -45,6 +71,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Select Time"
+        android:inputType="time"
         app:layout_constraintTop_toBottomOf="@id/dateInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,11 +94,11 @@
         android:id="@+id/confirmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Confirm"
         android:backgroundTint="@color/black"
         app:layout_constraintTop_toBottomOf="@id/guestsInput"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:id="@+id/cancelButton"
@@ -80,9 +107,8 @@
         android:layout_marginLeft="8dp"
         android:text="Cancel"
         android:backgroundTint="#DB4813"
-        app:layout_constraintTop_toBottomOf="@id/guestsInput"
-        app:layout_constraintStart_toEndOf="@id/confirmButton"
-        android:layout_marginTop="24dp"/>
+        app:layout_constraintTop_toTopOf="@id/confirmButton"
+        app:layout_constraintStart_toEndOf="@id/confirmButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

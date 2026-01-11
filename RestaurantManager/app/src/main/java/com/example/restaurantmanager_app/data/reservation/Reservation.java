@@ -10,9 +10,11 @@ public class Reservation {
     private String created_at;
     private String last_modified;
 
-    public Reservation(int reservationId, int userId, String reservation_date,
-                       String reservation_time, int party_size, String status,
-                       String created_at, String last_modified) {
+    public Reservation(
+            int reservationId, int userId, String reservation_date,
+            String reservation_time, int party_size, String status,
+            String created_at, String last_modified
+    ) {
         this.reservationId = reservationId;
         this.userId = userId;
         this.reservation_date = reservation_date;
