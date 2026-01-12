@@ -10,12 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.restaurantmanager_app.data.reservation.Reservation;
+import com.example.restaurantmanager_app.data.reservation.ReservationService;
 
 
 public class ReservationsManageDialog extends DialogFragment {
@@ -45,9 +47,11 @@ public class ReservationsManageDialog extends DialogFragment {
         Button confirmButton = view.findViewById(R.id.confirmButton);
         Button cancelReservationButton = view.findViewById(R.id.cancelReservation_Button);
 
-        // Retrieve the MenuItem from the arguments bundle.
-
+        // Retrieve the Reservation Item from the arguments bundle.
         Reservation reservation = getArguments().getParcelable(ARG_RESERVATION);
+
+        ReservationService reservationService = new ReservationService(getContext());
+
 
         if (reservation != null) {
             //firstNameInput.setText(reservation.getUsername());
@@ -61,31 +65,54 @@ public class ReservationsManageDialog extends DialogFragment {
         // User clicks to close dialog
         closeButton.setOnClickListener(v -> dismiss());
 
+        // User clicks to edit reservation
+        editReservation.setOnClickListener(v -> {
+            // Turn the fields to editable
+            //firstNameInput.setEnabled(true);
+            //lastNameInput.setEnabled(true);
+            //phoneNumberInput.setEnabled(true);
+            dateInput.setEnabled(true);
+            timeInput.setEnabled(true);
+            guestsInput.setEnabled(true);
+            editReservation.setVisibility(View.GONE);
+            confirmButton.setVisibility(View.VISIBLE);
+        });
+
+
         // User makes some changes to reservation details and clicks confirm
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // First check for differences in details
-                if (
-                    !reservation.getReservation_date().equals(dateInput.getText().toString()) ||
-                    !reservation.getReservation_time().equals(timeInput.getText().toString()) ||
-                    reservation.getParty_size() != Integer.parseInt(guestsInput.getText().toString())
-                ) {
-                    Reservation newReservation = new Reservation(
-                            reservation.getReservationId(),
-                            reservation.getUsername(),
-                            dateInput.getText().toString(),
-                            timeInput.getText().toString(),
-                            Integer.parseInt(guestsInput.getText().toString()),
-                            reservation.getStatus(),
-                            reservation.getCreated_at(),
-                            reservation.getLast_modified()
-                    );
-
-
+                // Update the reservation with the new details
+                try {
+                    if (!reservationService.updateExistingReservation(reservation.getReservationId(), dateInput.getText().toString(), timeInput.getText().toString(), Integer.parseInt(guestsInput.getText().toString()))) {
+                        // If unsuccessful, display error message
+                        // TODO: Display error message to user
+                        Toast toast = Toast.makeText(getContext(), "Error updating reservation", Toast.LENGTH_SHORT);
+                        toast.show();
+                    };
+                } catch (Exception e) {
+                    // Handle any exceptions that may occur during data retrieval
+                    e.printStackTrace();
                 }
+                dismiss();
             }
         });
+
+        cancelReservationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Change the status of reservation to cancelled
+                try {
+                    reservationService.cancelExistingReservation(reservation.getReservationId());
+                } catch (Exception e) {
+                    // Handle any exceptions that may occur during data retrieval
+                    e.printStackTrace();
+                }
+                dismiss();
+            }
+        });
+
 
         return view;
     }

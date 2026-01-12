@@ -1,5 +1,6 @@
 package com.example.restaurantmanager_app.data.reservation;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import com.example.restaurantmanager_app.data.DatabaseHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+// This Class handles the CRUD Operations for Reservations
 public class ReservationDao {
     public static final String TABLE_NAME = "Reservation";
 
@@ -30,7 +32,35 @@ public class ReservationDao {
         dbHelper = new DatabaseHelper(context);
     }
 
-    
+    // --------------- CREATE OPERATIONS -----------------
+    // This method is used to create a new reservation in the database
+    public long createReservation(
+            String username, String date, String time, int partySize,
+            String status, String createdAt, String lastModified) {
+
+        // 1. Get the writable database instance using your new DatabaseManager
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // 2. Create a ContentValues object to hold the new row's data
+        ContentValues values = new ContentValues();
+        values.put("username", username);
+        values.put("reservation_date", date);
+        values.put("reservation_time", time);
+        values.put("party_size", partySize);
+        values.put("status", "confirmed"); // Default status
+        values.put("created_at", createdAt);
+        values.put("last_modified", lastModified);
+
+
+        // 3. Insert the new row into the reservations table
+        // The `db.insert()` method returns the row ID of the newly inserted row,
+        // or -1 if an error occurred.
+        long newRowId = db.insert(ReservationDao.TABLE_NAME, null, values);
+        db.close();
+        return newRowId;
+    }
+
+    // ---------- READ OPERATIONS --------------------
     // This is for staff members that will have access to all reservations
     public List<Reservation> getAllReservations() {
 
@@ -62,7 +92,7 @@ public class ReservationDao {
     }
 
     // This is for users that will have access to only their reservations
-    public List<Reservation> getReservationsForUser(String username) {
+    public List<Reservation> getUserReservations(String username) {
         List<Reservation> reservations = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -120,4 +150,66 @@ public class ReservationDao {
         return reservations;
     }
 
+
+    // ------------------ UPDATE OPERATIONS -------------------
+    // This method is used to update a reservation in the database
+    public int updateReservation(int reservationId, String newDate, String newTime, int newPartySize, String status, String lastModified) {
+        // 1. Get the writable database
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // 2. Create ContentValues with the new values
+        // We only update these values because these are the only values that are likely to change
+        ContentValues values = new ContentValues();
+        values.put("reservation_date", newDate);
+        values.put("reservation_time", newTime);
+        values.put("party_size", newPartySize);
+        values.put("status", status);
+        values.put("last_modified", lastModified);
+
+
+
+        // 3. Define the 'where' part of the query
+        // This specifies which row to update (the one with the matching reservation_id)
+        String selection = "id = ?";
+        String[] selectionArgs = { String.valueOf(reservationId) };
+
+        // 4. Update the row
+        // db.update() method returns the number of rows affected by update.
+        int count = db.update(
+                ReservationDao.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
+        db.close();
+        return count; // Returns 1 if successful, 0 if no row was found with that ID
+    }
+
+    // This method will change the reservation status to cancelled
+    // Inside ReservationDao.java
+    public int cancelReservation(int reservationId, String lastModified) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("status", "cancelled");
+        values.put("last_modified", lastModified);
+
+        String selection = "id = ?";
+        String[] selectionArgs = { String.valueOf(reservationId) };
+
+        int count = db.update(TABLE_NAME, values, selection, selectionArgs);
+        db.close();
+        return count;
+    }
+
+
+    // -------------------- DELETE OPERATIONS ---------------------
+    // This method is used to delete a reservation from the database
+    public int deleteReservation(int reservationId) {
+        // 1. Get the writable database
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete(ReservationDao.TABLE_NAME, "id = ?", new String[]{String.valueOf(reservationId)});
+        db.close();
+        return 1; // Returns 1 if successful, 0 if no row was found with that ID
+    }
 }

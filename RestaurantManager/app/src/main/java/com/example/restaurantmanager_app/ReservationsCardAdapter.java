@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantmanager_app.data.reservation.Reservation;
@@ -37,6 +38,12 @@ public class ReservationsCardAdapter extends RecyclerView.Adapter<ReservationsCa
         holder.dateView.setText(reservation.getReservation_date());
         holder.timeView.setText(reservation.getReservation_time());
         holder.partySizeView.setText(String.valueOf(reservation.getParty_size()));
+
+        // Set a click listener on the item view.
+        holder.itemView.setOnClickListener(v -> {
+            // When the item is clicked, create a new instance of the ReservationsManageDialog and show it.
+            ReservationsManageDialog.newInstance(reservation).show(((AppCompatActivity) context).getSupportFragmentManager(), "dialog_manage_reservation");
+        });
     }
 
     @Override

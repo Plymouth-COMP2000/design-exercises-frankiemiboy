@@ -12,10 +12,13 @@ public class SessionManager {
         prefs = context.getSharedPreferences("session", Context.MODE_PRIVATE);
     }
 
-    public void createSession(String username, String role) {
+    public void createSession(String username, String firstName, String lastName, String phoneNumber, String role) {
         prefs.edit()
                 .putBoolean("loggedIn", true)
                 .putString("username", username)
+                .putString("firstname", firstName)
+                .putString("lastname", lastName)
+                .putString("phoneNumber", phoneNumber)
                 .putString("role", role)
                 .apply();
     }
@@ -24,10 +27,21 @@ public class SessionManager {
         return prefs.getBoolean("loggedIn", false);
     }
 
+    public String getFirstName() {
+        return prefs.getString("firstname", "");
+    }
+
+    public String getLastName() {
+        return prefs.getString("lastname", "");
+    }
+
     public String getUsername() {
         return prefs.getString("username", "");
     }
 
+    public String getPhoneNumber() {
+        return prefs.getString("phoneNumber", "");
+    }
     public String getRole() {
         return prefs.getString("role", "");
     }

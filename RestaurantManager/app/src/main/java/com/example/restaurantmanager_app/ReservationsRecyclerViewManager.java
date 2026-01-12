@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantmanager_app.data.reservation.Reservation;
 import com.example.restaurantmanager_app.data.reservation.ReservationDao;
+import com.example.restaurantmanager_app.data.reservation.ReservationService;
 import com.example.restaurantmanager_app.user_management.SessionManager;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ReservationsRecyclerViewManager {
 
     public void setup(View rootView, Context context) {
         SessionManager sessionManager = new SessionManager(context);
-        ReservationDao reservationDao = new ReservationDao(context);
+        ReservationService reservationService = new ReservationService(context);;
 
         List<Reservation> reservations;
 
@@ -27,11 +28,11 @@ public class ReservationsRecyclerViewManager {
             // Check user role to determine which reservations to fetch
             if ("staff".equalsIgnoreCase(sessionManager.getRole())) {
                 // Staff sees all reservations
-                reservations = reservationDao.getAllReservations();
+                reservations = reservationService.getAllReservations();
             } else {
                 // Regular users see only their own reservations
                 String username = sessionManager.getUsername();
-                reservations = reservationDao.getReservationsForUser(username);
+                reservations = reservationService.getUserReservations(username);
             }
         } catch (Exception e) {
             // Handle any exceptions that may occur during data retrieval
