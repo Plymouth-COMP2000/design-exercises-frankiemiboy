@@ -19,7 +19,7 @@ public class NotificationPreferenceDao {
     public static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "user_id INTEGER NOT NULL," +
+            "username TEXT NOT NULL," +
             "notification_type TEXT NOT NULL," +
             "enabled INTEGER DEFAULT 1 NOT NULL" +
             ")";
@@ -44,11 +44,11 @@ public class NotificationPreferenceDao {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                int userId = cursor.getInt(cursor.getColumnIndexOrThrow("user_id"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
                 String notificationType = cursor.getString(cursor.getColumnIndexOrThrow("notification_type"));
                 int enabled = cursor.getInt(cursor.getColumnIndexOrThrow("enabled"));
 
-                NotificationPreference notificationPreference = new NotificationPreference(id, userId, notificationType, enabled);
+                NotificationPreference notificationPreference = new NotificationPreference(id, username, notificationType, enabled);
                 notificationPreferences.add(notificationPreference);
 
             } while (cursor.moveToNext());
@@ -60,14 +60,14 @@ public class NotificationPreferenceDao {
     }
 
     // Get a specific user's notification preferences
-    public List<NotificationPreference> getUserNotificationPreferences(int userId) {
+    public List<NotificationPreference> getUserNotificationPreferences(String username) {
         // Implement the logic to retrieve all notification preferences from the database
         List<NotificationPreference> notificationPreferences = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query to retrieve all notification preferences;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(username)});
 
         if (cursor.moveToFirst()) {
             do{
@@ -75,7 +75,7 @@ public class NotificationPreferenceDao {
                 String notificationType = cursor.getString(cursor.getColumnIndexOrThrow("notification_type"));
                 int enabled = cursor.getInt(cursor.getColumnIndexOrThrow("enabled"));
 
-                NotificationPreference notificationPreference = new NotificationPreference(id, userId, notificationType, enabled);
+                NotificationPreference notificationPreference = new NotificationPreference(id, username, notificationType, enabled);
                 notificationPreferences.add(notificationPreference);
             } while (cursor.moveToNext());
 

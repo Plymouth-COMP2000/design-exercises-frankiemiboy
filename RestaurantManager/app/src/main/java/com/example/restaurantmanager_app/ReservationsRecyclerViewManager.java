@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantmanager_app.data.reservation.Reservation;
 import com.example.restaurantmanager_app.data.reservation.ReservationDao;
+import com.example.restaurantmanager_app.user_management.SessionManager;
 
 import java.util.List;
 
@@ -16,8 +17,26 @@ public class ReservationsRecyclerViewManager {
     private ReservationsCardAdapter adapter;
 
     public void setup(View rootView, Context context) {
+        SessionManager sessionManager = new SessionManager(context);
         ReservationDao reservationDao = new ReservationDao(context);
-        List<Reservation> reservations = reservationDao.getAllReservations();
+
+        List<Reservation> reservations;
+
+        // Try to fetch the data from the database
+        try {
+            // Check user role to determine which reservations to fetch
+            if ("staff".equalsIgnoreCase(sessionManager.getRole())) {
+                // Staff sees all reservations
+                reservations = reservationDao.getAllReservations();
+            } else {
+                // Regular users see only their own reservations
+                String username = sessionManager.getUsername();
+                reservations = reservationDao.getReservationsForUser(username);
+            }
+        } catch (Exception e) {
+            // Handle any exceptions that may occur during data retrieval
+            reservations = null;
+        }
 
         recyclerView = rootView.findViewById(R.id.reservation_RecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));

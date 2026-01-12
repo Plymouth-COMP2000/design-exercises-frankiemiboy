@@ -23,8 +23,9 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        Button editButton = view.findViewById(R.id.editButton);
         Button saveButton = view.findViewById(R.id.saveButton);
+        Button cancelButton = view.findViewById(R.id.cancelButton);
+        TextView editDetails = view.findViewById(R.id.editDetails);
         TextView manageNotifications = view.findViewById(R.id.manageNotifications);
         TextView changePassword = view.findViewById(R.id.changePassword);
         TextView logout = view.findViewById(R.id.logout);

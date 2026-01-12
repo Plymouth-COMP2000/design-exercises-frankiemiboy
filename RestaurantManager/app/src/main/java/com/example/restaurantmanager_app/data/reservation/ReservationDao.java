@@ -15,7 +15,7 @@ public class ReservationDao {
     public static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "user_id INTEGER NOT NULL," +
+            "username TEXT NOT NULL," +
             "reservation_date TEXT NOT NULL," +
             "reservation_time TEXT NOT NULL," +
             "party_size INTEGER NOT NULL," +
@@ -30,6 +30,8 @@ public class ReservationDao {
         dbHelper = new DatabaseHelper(context);
     }
 
+    
+    // This is for staff members that will have access to all reservations
     public List<Reservation> getAllReservations() {
 
         List<Reservation> reservations = new ArrayList<>();
@@ -42,7 +44,7 @@ public class ReservationDao {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                int userId = cursor.getInt(cursor.getColumnIndexOrThrow("user_id"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
                 String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
                 String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
                 int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
@@ -50,7 +52,36 @@ public class ReservationDao {
                 String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
                 String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
 
-                Reservation reservation = new Reservation(id, userId, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+                Reservation reservation = new Reservation(id, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+                reservations.add(reservation);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return reservations;
+    }
+
+    // This is for users that will have access to only their reservations
+    public List<Reservation> getReservationsForUser(String username) {
+        List<Reservation> reservations = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        // Query to retrieve all reservations for a specific user;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String reservationUsername = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
+                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
+                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
+                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
+                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
+                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
+
+                Reservation reservation = new Reservation(id, reservationUsername, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
                 reservations.add(reservation);
             } while (cursor.moveToNext());
         }
@@ -72,7 +103,7 @@ public class ReservationDao {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                int userId = cursor.getInt(cursor.getColumnIndexOrThrow("user_id"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
                 String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
                 String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
                 int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
@@ -80,7 +111,7 @@ public class ReservationDao {
                 String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
                 String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
 
-                Reservation reservation = new Reservation(id, userId, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+                Reservation reservation = new Reservation(id, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
                 reservations.add(reservation);
             } while (cursor.moveToNext());
         }

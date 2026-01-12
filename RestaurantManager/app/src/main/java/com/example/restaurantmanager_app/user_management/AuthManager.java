@@ -20,7 +20,7 @@ public class AuthManager {
 
     public void login(
             String studentId,
-            String inputUsername,
+            String inputEmail,
             String inputPassword,
             AuthCallback callback
     ) {
@@ -31,8 +31,9 @@ public class AuthManager {
             @Override
             public void onSuccess(List<User> users) {
                 for (User user : users) {
-                    if (user.getUsername().equals(inputUsername) &&
-                            user.getPassword().equals(inputPassword)) {
+                    if (user.getEmail().equals(inputEmail)
+                            &&
+                        user.getPassword().equals(inputPassword)) {
 
                         sessionManager.createSession(
                                 user.getUsername(),

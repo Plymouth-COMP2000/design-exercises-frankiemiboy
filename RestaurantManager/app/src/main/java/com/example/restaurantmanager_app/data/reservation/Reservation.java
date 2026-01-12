@@ -1,8 +1,11 @@
 package com.example.restaurantmanager_app.data.reservation;
 
-public class Reservation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Reservation implements Parcelable {
     private int reservationId;
-    private int userId;
+    private String username;
     private String reservation_date;
     private String reservation_time;
     private int party_size;
@@ -11,12 +14,12 @@ public class Reservation {
     private String last_modified;
 
     public Reservation(
-            int reservationId, int userId, String reservation_date,
+            int reservationId, String username, String reservation_date,
             String reservation_time, int party_size, String status,
             String created_at, String last_modified
     ) {
         this.reservationId = reservationId;
-        this.userId = userId;
+        this.username = username;
         this.reservation_date = reservation_date;
         this.reservation_time = reservation_time;
         this.party_size = party_size;
@@ -25,8 +28,49 @@ public class Reservation {
         this.last_modified = last_modified;
     }
 
+    // Write the object data to a Parcel
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(reservationId);
+        dest.writeString(username);
+        dest.writeString(reservation_date);
+        dest.writeString(reservation_time);
+        dest.writeInt(party_size);
+        dest.writeString(status);
+        dest.writeString(created_at);
+        dest.writeString(last_modified);
+    }
+
+    // Constructor used to turn Parcel into Reservation object
+    public Reservation(Parcel in) {
+        reservationId = in.readInt();
+        username = in.readString();
+        reservation_date = in.readString();
+        reservation_time = in.readString();
+        party_size = in.readInt();
+        status = in.readString();
+        created_at = in.readString();
+        last_modified = in.readString();
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
+        @Override
+        public Reservation createFromParcel(Parcel in) {
+            return new Reservation(in);
+        }
+
+        @Override
+        public Reservation[] newArray(int size) {
+            return new Reservation[size];
+        }
+    };
+
     public int getReservationId() { return reservationId; }
-    public int getUserId() { return userId; }
+    public String getUsername() { return username; }
     public String getReservation_date() { return reservation_date; }
     public String getReservation_time() { return reservation_time; }
     public int getParty_size() { return party_size; }

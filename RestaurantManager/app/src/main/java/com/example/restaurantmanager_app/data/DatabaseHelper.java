@@ -40,24 +40,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void insertDummyNotifications(SQLiteDatabase db) {
         // Corrected dummy notifications
-        insertNotification(db, 1, 1, "Reservation Confirmation", "Your reservation has been confirmed!", "2023-08-25 10:30:00");
-        insertNotification(db, 2, 2, "New Menu Item", "We've added a new item to our menu!", "2023-08-29 11:45:00");
-        insertNotification(db, 3, 3, "Reservation Cancellation", "Your reservation has been cancelled.", "2023-08-27 12:05:00");
+        insertNotification(db, "user1", 1, "Reservation Confirmation", "Your reservation has been confirmed!", "2023-08-25 10:30:00");
+        insertNotification(db, "user2", 2, "New Menu Item", "We've added a new item to our menu!", "2023-08-29 11:45:00");
+        insertNotification(db, "user3", 3, "Reservation Cancellation", "Your reservation has been cancelled.", "2023-08-27 12:05:00");
+        insertNotification(db, "hill_banks", 4, "Reservation Changed", "We've added a new item to our menu", "2023-08-27 12:05:00");
     }
 
     private void insertDummyNotificationPreferences(SQLiteDatabase db) {
         // Corrected dummy notification preferences
-        insertNotificationPreference(db, 1, "Cancelled Reservation", 1);
-        insertNotificationPreference(db, 2, "New Reservation", 1);
-        insertNotificationPreference(db, 3, "Reservation Confirmation", 0);
-        insertNotificationPreference(db, 3, "New Menu Item", 0);
-        insertNotificationPreference(db, 2, "Cancelled Reservation", 0);
+        insertNotificationPreference(db, "user1", "Cancelled Reservation", 1);
+        insertNotificationPreference(db, "user2", "New Reservation", 1);
+        insertNotificationPreference(db, "user3", "Reservation Confirmation", 0);
+        insertNotificationPreference(db, "user3", "New Menu Item", 0);
+        insertNotificationPreference(db, "user2", "Cancelled Reservation", 0);
     }
 
     private void insertDummyReservations(SQLiteDatabase db) {
-        insertReservation(db, 1, "2023-08-25", "18:30", 4, "confirmed", "2023-08-25 10:30:00", "2023-08-25 10:30:00");
-        insertReservation(db, 2, "2023-08-26", "19:00", 2, "confirmed", "2023-08-26 11:45:00", "2023-08-26 11:45:00");
-        insertReservation(db, 3, "2023-08-29", "20:15", 6, "confirmed", "2023-08-29 12:05:00", "2023-08-29 12:05:00");
+        insertReservation(db, "user1", "2023-08-25", "18:30", 4, "confirmed", "2023-08-25 10:30:00", "2023-08-25 10:30:00");
+        insertReservation(db, "user2", "2023-08-26", "19:00", 2, "confirmed", "2023-08-26 11:45:00", "2023-08-26 11:45:00");
+        insertReservation(db, "user3", "2023-08-29", "20:15", 6, "confirmed", "2023-08-29 12:05:00", "2023-08-29 12:05:00");
+        insertReservation(db, "hill_banks", "2026-01-12", "12:00", 2, "confirmed", "2023-08-29 12:05:00", "2023-08-29 12:05:00");
     }
 
     private void insertMenuItem(SQLiteDatabase db, String title, String description, double price, String image, int isVegan) {
@@ -72,9 +74,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Corrected insertNotification method
-    private void insertNotification(SQLiteDatabase db, int userId, int reservationId, String title, String message, String createdAt) {
+    private void insertNotification(SQLiteDatabase db, String username, int reservationId, String title, String message, String createdAt) {
         ContentValues values = new ContentValues();
-        values.put("user_id", userId);
+        values.put("username", username);
         values.put("reservation_id", reservationId);
         values.put("title", title);
         values.put("message", message);
@@ -83,12 +85,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void insertReservation(
-            SQLiteDatabase db, int userId, String reservationDate,
+            SQLiteDatabase db, String username, String reservationDate,
             String reservationTime, int partySize, String status,
             String createdAt, String lastModified
     ) {
         ContentValues values = new ContentValues();
-        values.put("user_id", userId);
+        values.put("username", username);
         values.put("reservation_date", reservationDate);
         values.put("reservation_time", reservationTime);
         values.put("party_size", partySize);
@@ -98,9 +100,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(ReservationDao.TABLE_NAME, null, values);
     }
 
-    private void insertNotificationPreference(SQLiteDatabase db, int userId, String notificationType, int enabled) {
+    private void insertNotificationPreference(SQLiteDatabase db, String username, String notificationType, int enabled) {
         ContentValues values = new ContentValues();
-        values.put("user_id", userId);
+        values.put("username", username);
         values.put("notification_type", notificationType);
         values.put("enabled", enabled);
         db.insert(NotificationPreferenceDao.TABLE_NAME, null, values);

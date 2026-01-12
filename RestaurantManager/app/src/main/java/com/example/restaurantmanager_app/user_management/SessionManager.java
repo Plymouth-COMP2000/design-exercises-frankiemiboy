@@ -24,6 +24,10 @@ public class SessionManager {
         return prefs.getBoolean("loggedIn", false);
     }
 
+    public String getUsername() {
+        return prefs.getString("username", "");
+    }
+
     public String getRole() {
         return prefs.getString("role", "");
     }

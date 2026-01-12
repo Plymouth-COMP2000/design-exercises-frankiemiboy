@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -55,11 +55,12 @@ public class UserService {
                         List<User> users = gson.fromJson(usersArray.toString(), listType);
                         callback.onSuccess(users);
                     } catch (Exception e) {
+                        Log.e("UserService", "Parsing error", e);
                         callback.onError("Parsing error");
                     }
                 },
                 error -> {
-                    Log.e("UserService", error.toString());
+                    Log.e("UserService", "Volley error: ", error);
                     callback.onError("API request failed");
                 }
         );
@@ -73,4 +74,3 @@ public class UserService {
         void onError(String message);
     }
 }
-

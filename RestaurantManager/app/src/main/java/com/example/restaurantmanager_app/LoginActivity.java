@@ -13,6 +13,7 @@ import com.example.restaurantmanager_app.user_management.AuthManager;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private EditText emailInput;
     private EditText usernameInput;
     private EditText passwordInput;
     private Button submitButton;
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_login_page);
 
-        usernameInput = findViewById(R.id.username_emailInput);
+        emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         submitButton = findViewById(R.id.submitButton);
 
@@ -36,22 +37,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptLogin() {
-        String username = usernameInput.getText().toString().trim(); // Get rid of any extra spaces
+        String email = emailInput.getText().toString().trim(); // Get rid of any extra spaces
         String password = passwordInput.getText().toString().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please enter both username and password", Toast.LENGTH_SHORT);
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please enter both email and password", Toast.LENGTH_SHORT);
             return;
         }
 
         authManager.login(
                 "10933458",
-                username,
+                email,
                 password,
                 new AuthCallback() {
                     @Override
                     public void onSuccess(String userType) {
                         navigateToMainActivity(userType);
+                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

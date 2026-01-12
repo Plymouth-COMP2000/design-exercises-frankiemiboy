@@ -20,7 +20,7 @@ public class NotificationDao {
     public static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "user_id INTEGER NOT NULL," +
+            "username TEXT NOT NULL," +
             "reservation_id INTEGER NOT NULL," +
             "title TEXT NOT NULL," +
             "message TEXT NOT NULL," +
@@ -48,14 +48,14 @@ public class NotificationDao {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                int userId = cursor.getInt(cursor.getColumnIndexOrThrow("user_id"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
                 int reservationId = cursor.getInt(cursor.getColumnIndexOrThrow("reservation_id"));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String message = cursor.getString(cursor.getColumnIndexOrThrow("message"));
                 int isRead = cursor.getInt(cursor.getColumnIndexOrThrow("is_read"));
                 String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
 
-                Notification notification = new Notification(id, userId, reservationId, title, message, isRead, createdAt);
+                Notification notification = new Notification(id, username, reservationId, title, message, isRead, createdAt);
                 notifications.add(notification);
             } while (cursor.moveToNext());
         }
@@ -65,14 +65,14 @@ public class NotificationDao {
     }
 
     // Read user-specific notifications
-    public List<Notification> getAllUserNotifications(int userId) {
+    public List<Notification> getAllUserNotifications(String username) {
 
         // Implement the logic to retrieve all notifications that belong to a specific user from the database
         List<Notification> notifications = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query to retrieve all notifications;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ?";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -84,7 +84,7 @@ public class NotificationDao {
                 int isRead = cursor.getInt(cursor.getColumnIndexOrThrow("is_read"));
                 String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
 
-                Notification notification = new Notification(id, userId, reservationId, title, message, isRead, createdAt);
+                Notification notification = new Notification(id, username, reservationId, title, message, isRead, createdAt);
                 notifications.add(notification);
             } while (cursor.moveToNext());
         }
@@ -94,7 +94,7 @@ public class NotificationDao {
     }
 
     // Read unread user-specific notifications
-    public List<Notification> getUnreadUserNotifications(int userId) {
+    public List<Notification> getUnreadUserNotifications(String username) {
 
         // Implement the logic to retrieve all notifications from the database
         List<Notification> notifications = new ArrayList<>();
@@ -113,7 +113,7 @@ public class NotificationDao {
                 int isRead = cursor.getInt(cursor.getColumnIndexOrThrow("is_read"));
                 String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
 
-                Notification notification = new Notification(id, userId, reservationId, title, message, isRead, createdAt);
+                Notification notification = new Notification(id, username, reservationId, title, message, isRead, createdAt);
                 notifications.add(notification);
             } while (cursor.moveToNext());
         }

@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class CreateReservationDialog extends DialogFragment {
+public class ReservationsCreateDialog extends DialogFragment {
 
     public interface ReservationListener {
         void onReservationCreated(
@@ -26,8 +26,8 @@ public class CreateReservationDialog extends DialogFragment {
 
     private ReservationListener listener;
 
-    public static CreateReservationDialog newInstance() {
-        return new CreateReservationDialog();
+    public static ReservationsCreateDialog newInstance() {
+        return new ReservationsCreateDialog();
     }
 
     public void setListener(ReservationListener listener) {

@@ -21,7 +21,7 @@ public class MenuFragment extends Fragment {
 
         Button createReservationButton = view.findViewById(R.id.menu_createReservationButton);
         createReservationButton.setOnClickListener(v -> {
-            CreateReservationDialog dialog = CreateReservationDialog.newInstance();
+            ReservationsCreateDialog dialog = ReservationsCreateDialog.newInstance();
             dialog.setListener((name, date, time, guests) -> {
                 Log.d("Reservation", name + " " + date + " " + time + " " + guests);
             });

@@ -16,46 +16,52 @@
         android:layout_height="100dp"
         android:padding="12dp">
 
-        <!-- Menu item name -->
-
-        <!-- View Item action -->
+        <TextView
+            android:id="@+id/notificationTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="31/12/2026"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/notificationTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:paddingStart="12dp"
-            android:paddingEnd="12dp"
             android:text="Notification Title"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/notificationTime" />
-
-        <TextView
-            android:id="@+id/notificationTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="00:00"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.142" />
+            app:layout_constraintTop_toBottomOf="@+id/notificationTime" />
 
         <TextView
             android:id="@+id/notificationContent"
             android:layout_width="wrap_content"
+            android:maxWidth="4200dp"
             android:layout_height="wrap_content"
             android:paddingStart="12dp"
             android:text="Your reservation for DD/MM/YYYY has been cancelled"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/notificationTitle"
-
             app:layout_constraintTop_toBottomOf="@id/notificationTitle" />
+
+        <ImageButton
+            android:id="@+id/mark_read_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Mark Read"
+            android:src="@drawable/mark_notification_read_24px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
