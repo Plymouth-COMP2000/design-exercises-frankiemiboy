@@ -34,7 +34,7 @@ public class User {
     public String getEmail() { return email; }
     public String getPassword() { return password; }
     public String getUsertype() { return usertype; }
-    public String getFirstname() { return firstname; }
-    public String getLastname() { return lastname; }
+    public String getFirstName() { return firstname; }
+    public String getLastName() { return lastname; }
     public String getContact() { return contact; }
 }

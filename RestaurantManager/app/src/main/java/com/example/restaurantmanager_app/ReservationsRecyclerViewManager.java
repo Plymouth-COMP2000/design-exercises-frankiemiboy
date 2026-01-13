@@ -1,14 +1,12 @@
 package com.example.restaurantmanager_app;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantmanager_app.data.reservation.Reservation;
-import com.example.restaurantmanager_app.data.reservation.ReservationDao;
 import com.example.restaurantmanager_app.data.reservation.ReservationService;
 import com.example.restaurantmanager_app.user_management.SessionManager;
 import com.example.restaurantmanager_app.user_management.User;
@@ -36,7 +34,7 @@ public class ReservationsRecyclerViewManager {
 
     public void loadData() {
         SessionManager sessionManager = new SessionManager(context);
-        ReservationService reservationService = new ReservationService(context);;
+        ReservationService reservationService = new ReservationService(context);
 
         List<Reservation> reservations;
 
@@ -45,12 +43,12 @@ public class ReservationsRecyclerViewManager {
             // Check user role to determine which reservations to fetch
             if (sessionManager.getRole().equals("staff")) {
                 // Staff sees all reservations
-                reservations = reservationService.getAllReservations();
+                reservations = reservationService.getAllConfirmedReservations();
             } else {
                 // Regular users see only their own reservations
                 String username = sessionManager.getUsername();
-                reservations = reservationService.getUserReservations(username);
-                Log.d("ReservationsRecyclerViewManager", "Reservations: " + reservations);
+                reservations = reservationService.getUserConfirmedReservations(username);
+                //Log.d("ReservationsRecyclerViewManager", "Reservations: " + reservations);
             }
         } catch (Exception e) {
             // Handle any exceptions that may occur during data retrieval
@@ -74,7 +72,7 @@ public class ReservationsRecyclerViewManager {
                 for (Reservation reservation : finalReservations) {
                     User user = userMap.get(reservation.getUsername());
                     if (user != null) {
-                        reservation.setTransientDetails(user.getFirstname(), user.getLastname(), user.getContact());
+                        reservation.setTransientDetails(user.getFirstName(), user.getLastName(), user.getContact());
                     }
                 }
 

@@ -41,7 +41,6 @@ public class UserService {
             UserResponseCallback callback
     ) {
         initQueue(context);
-
         String url = BASE_URL + "/read_all_users/" + studentId;
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -67,6 +66,53 @@ public class UserService {
 
         requestQueue.add(request);
     }
+
+    // POST: /create_user/{student_id}
+    public static void createUser(
+            Context context,
+            String studentId,
+            User user,
+            UserResponseCallback callback
+    ) {
+        initQueue(context);
+        String url = BASE_URL + "/create_user/" + studentId;
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("username", user.getUsername());
+            requestBody.put("password", user.getPassword());
+            requestBody.put("firstname", user.getFirstName());
+            requestBody.put("lastname", user.getLastName());
+            requestBody.put("email", user.getEmail());
+            requestBody.put("contact", user.getContact());
+            requestBody.put("usertype", user.getUsertype());
+        } catch (Exception e) {
+            Log.e("UserService", "JSON creation error", e);
+            callback.onError("JSON creation error");
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                requestBody,
+                response -> {
+                    try {
+                        callback.onSuccess(null);
+                    } catch (Exception e) {
+                        Log.e("UserService", "Parsing error", e);
+                        callback.onError("Parsing error");
+                    }
+                },
+                error -> {
+                    Log.e("UserService", "Volley error: ", error);
+                    callback.onError("API request failed");
+                }
+        );
+
+        requestQueue.add(request);
+    }
+
 
     // Callback interface
     public interface UserResponseCallback {

@@ -14,7 +14,6 @@ import com.example.restaurantmanager_app.user_management.AuthManager;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput;
-    private EditText usernameInput;
     private EditText passwordInput;
     private Button submitButton;
 

@@ -69,7 +69,16 @@ public class ReservationsManageDialog extends DialogFragment {
         }
 
         // User clicks to close dialog
-        closeButton.setOnClickListener(v -> dismiss());
+        closeButton.setOnClickListener(v -> {
+            dismiss();
+        });
+
+        // If reservation is cancelled or expired, remove ability to edit reservation
+        if (!reservation.getStatus().equals("CONFIRMED")) {
+            editReservation.setVisibility(View.GONE);
+            confirmButton.setVisibility(View.GONE);
+            cancelReservationButton.setVisibility(View.GONE);
+        }
 
         // User clicks to edit reservation
         editReservation.setOnClickListener(v -> {
@@ -137,6 +146,8 @@ public class ReservationsManageDialog extends DialogFragment {
                 dismiss();
             }
         });
+
+
 
 
         return view;

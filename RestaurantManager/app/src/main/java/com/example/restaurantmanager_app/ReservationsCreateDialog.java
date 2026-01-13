@@ -8,30 +8,23 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.restaurantmanager_app.user_management.SessionManager;
+//import com.example.restaurantmanager_app.data.reservation.Reservation;
+import com.example.restaurantmanager_app.data.reservation.ReservationService;
+
 public class ReservationsCreateDialog extends DialogFragment {
 
-    public interface ReservationListener {
-        void onReservationCreated(
-                String name,
-                String date,
-                String time,
-                int guests
-        );
-    }
-
-    private ReservationListener listener;
+    private SessionManager sessionManager;
 
     public static ReservationsCreateDialog newInstance() {
         return new ReservationsCreateDialog();
-    }
-
-    public void setListener(ReservationListener listener) {
-        this.listener = listener;
     }
 
     @Nullable
@@ -39,24 +32,51 @@ public class ReservationsCreateDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_create_reservation, container, false);
 
-        EditText name = view.findViewById(R.id.nameInput);
+        EditText firstName = view.findViewById(R.id.firstNameInput);
+        EditText lastName = view.findViewById(R.id.lastNameInput);
+        EditText phoneNumber = view.findViewById(R.id.phoneNumberInput);
         EditText date = view.findViewById(R.id.dateInput);
         EditText time = view.findViewById(R.id.timeInput);
         EditText guests = view.findViewById(R.id.guestsInput);
 
         Button cancel = view.findViewById(R.id.cancelButton);
+        ImageButton close = view.findViewById(R.id.manage_reservation_closeButton);
         Button confirm = view.findViewById(R.id.confirmButton);
 
+        // Instantiate necessary objects
+        sessionManager = new SessionManager(getContext());
+        ReservationService reservationService = new ReservationService(getContext());
+
+        // Pre-populate obvious data
+        firstName.setText(sessionManager.getFirstName());
+        lastName.setText(sessionManager.getLastName());
+        phoneNumber.setText(sessionManager.getPhoneNumber());
+
+        // Set OnClick Listeners
         cancel.setOnClickListener(v -> dismiss());
+        close.setOnClickListener(v -> dismiss());
 
         confirm.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onReservationCreated(
-                        name.getText().toString(),
+            // Try to create a new reservation
+            try {
+                if (reservationService.createNewReservation(
+                        sessionManager.getUsername(),
                         date.getText().toString(),
                         time.getText().toString(),
-                        Integer.parseInt(guests.getText().toString())
-                );
+                        Integer.parseInt(guests.getText().toString()))
+                        != -1) {
+                    // If successful, display success message
+                    Toast toast = Toast.makeText(getContext(), "Reservation created successfully", Toast.LENGTH_SHORT);
+                    toast.show();
+                    Bundle result = new Bundle();
+                    result.putBoolean("refresh_needed", true);
+                } else {
+                    // If unsuccessful, display error message
+                    Toast toast = Toast.makeText(getContext(), "Ran into issue. Most likely invalid data entered", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
             dismiss();
         });

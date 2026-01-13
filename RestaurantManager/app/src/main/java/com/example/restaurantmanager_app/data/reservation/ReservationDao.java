@@ -35,8 +35,8 @@ public class ReservationDao {
     // --------------- CREATE OPERATIONS -----------------
     // This method is used to create a new reservation in the database
     public long createReservation(
-            String username, String date, String time, int partySize,
-            String status, String createdAt, String lastModified) {
+            String username, String date, String time,
+            int partySize, String createdAt, String lastModified) {
 
         // 1. Get the writable database instance using your new DatabaseManager
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -91,7 +91,67 @@ public class ReservationDao {
         return reservations;
     }
 
-    // This is for users that will have access to only their reservations
+    // Perhaps staff only wants to see Reservations that are confirmed;
+    public List<Reservation> getAllConfirmedReservations() {
+
+        List<Reservation> reservations = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        // Query to retrieve all reservations;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE status = 'confirmed'";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
+                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
+                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
+                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
+                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
+                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
+
+                Reservation reservation = new Reservation(id, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+                reservations.add(reservation);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return reservations;
+    }
+
+    // Shows staff only Reservations that are not confirmed
+    public List<Reservation> getAllNotConfirmedReservations() {
+
+        List<Reservation> reservations = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        // Query to retrieve all reservations;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE status != 'confirmed'";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
+                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
+                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
+                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
+                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
+                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
+
+                Reservation reservation = new Reservation(id, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+                reservations.add(reservation);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return reservations;
+    }
+
+    // This is for guests that will have access to only their reservations
     public List<Reservation> getUserReservations(String username) {
         List<Reservation> reservations = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -120,20 +180,22 @@ public class ReservationDao {
         return reservations;
     }
 
-    // Perhaps user only wants to see Reservations that are not cancelled;
-    public List<Reservation> getAllConfirmedReservations() {
-
+    // Strictly shows guests reservations that are confirmed
+    public List<Reservation> getUserConfirmedReservations(String username) {
         List<Reservation> reservations = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Query to retrieve all reservations;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE status != 'cancelled'";
-        Cursor cursor = db.rawQuery(query, null);
+        // Query to retrieve all reservations for a specific user;
+        String query = "SELECT * " +
+                "FROM " + TABLE_NAME + " " +
+                "WHERE username = ? AND status = 'confirmed' " +
+                "ORDER BY reservation_date DESC";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
 
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                String reservationUsername = cursor.getString(cursor.getColumnIndexOrThrow("username"));
                 String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
                 String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
                 int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
@@ -141,7 +203,39 @@ public class ReservationDao {
                 String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
                 String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
 
-                Reservation reservation = new Reservation(id, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+                Reservation reservation = new Reservation(id, reservationUsername, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+                reservations.add(reservation);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return reservations;
+    }
+
+    // Strictly shows guests reservations that are not confirmed
+    public List<Reservation> getUserNotConfirmedReservations(String username) {
+        List<Reservation> reservations = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        // Query to retrieve all reservations for a specific user;
+        String query = "SELECT * " +
+                "FROM " + TABLE_NAME + " " +
+                "WHERE username = ? AND status != 'confirmed' " +
+                "ORDER BY reservation_date DESC";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String reservationUsername = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
+                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
+                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
+                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
+                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
+                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
+
+                Reservation reservation = new Reservation(id, reservationUsername, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
                 reservations.add(reservation);
             } while (cursor.moveToNext());
         }

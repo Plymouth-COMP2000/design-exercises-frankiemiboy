@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.restaurantmanager_app.user_management.SessionManager;
+
 
 public class ReservationsFragment extends Fragment {
 
@@ -25,12 +27,13 @@ public class ReservationsFragment extends Fragment {
         Button createReservationButton = view.findViewById(R.id.createReservationButton);
         createReservationButton.setOnClickListener(v -> {
             ReservationsCreateDialog dialog = ReservationsCreateDialog.newInstance();
-            dialog.setListener((name, date, time, guests) -> {
-                Log.d("Reservation", name + " " + date + " " + time + " " + guests);
-            });
-
             dialog.show(getParentFragmentManager(), "create_reservation");
         });
+
+        SessionManager sessionManager = new SessionManager(getContext());
+        if (sessionManager.getRole().equals("staff")) {
+            createReservationButton.setVisibility(View.GONE);
+        }
 
         return view;
     }

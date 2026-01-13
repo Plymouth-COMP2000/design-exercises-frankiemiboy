@@ -12,7 +12,7 @@ import com.example.restaurantmanager_app.data.reservation.ReservationDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "restaurant.db";
-    private static final int DB_VERSION = 3; // Incremented version
+    private static final int DB_VERSION = 4; // Incremented version
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -60,6 +60,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertReservation(db, "user2", "2023-08-26", "19:00", 2, "confirmed", "2023-08-26 11:45:00", "2023-08-26 11:45:00");
         insertReservation(db, "user3", "2023-08-29", "20:15", 6, "confirmed", "2023-08-29 12:05:00", "2023-08-29 12:05:00");
         insertReservation(db, "hill_banks", "2026-01-12", "12:00", 2, "confirmed", "2023-08-29 12:05:00", "2023-08-29 12:05:00");
+        insertReservation(db, "ada_lovelace", "2026-02-14", "19:00", 2, "confirmed", "2026-01-10 09:30:00", "2026-01-10 09:30:00");
+        insertReservation(db, "grace_hopper", "2026-02-15", "12:30", 4, "confirmed", "2026-01-11 14:15:00", "2026-01-11 14:15:00");
+        insertReservation(db, "katherine_johnson", "2026-02-20", "18:00", 3, "confirmed", "2026-01-12 10:00:00", "2026-01-12 10:00:00");
+        insertReservation(db, "linus_torvalds", "2026-03-01", "20:00", 6, "confirmed", "2026-01-15 16:45:00", "2026-01-15 16:45:00");
+        insertReservation(db, "tim_berners_lee", "2026-03-05", "13:00", 2, "confirmed", "2026-01-18 11:20:00", "2026-01-18 11:20:00");
+        insertReservation(db, "ada_lovelace", "2026-03-10", "19:30", 2, "confirmed", "2026-01-20 08:00:00", "2026-01-20 08:00:00");
+        insertReservation(db, "grace_hopper", "2026-03-12", "12:00", 5, "confirmed", "2026-01-22 13:10:00", "2026-01-22 13:10:00");
+        insertReservation(db, "katherine_johnson", "2026-03-15", "18:30", 4, "confirmed", "2026-01-25 15:50:00", "2026-01-25 15:50:00");
+        insertReservation(db, "linus_torvalds", "2026-03-20", "20:30", 8, "confirmed", "2026-01-28 17:00:00", "2026-01-28 17:00:00");
+        insertReservation(db, "tim_berners_lee", "2026-03-25", "13:30", 3, "confirmed", "2026-01-30 12:45:00", "2026-01-30 12:45:00");
+
+        // Past reservations (Expired)
+        insertReservation(db, "linus_torvalds", "2025-11-15", "19:00", 4, "expired", "2025-10-01 10:00:00", "2025-11-16 10:00:00");
+        insertReservation(db, "linus_torvalds", "2025-12-24", "13:00", 8, "expired", "2025-12-01 08:45:00", "2025-12-25 09:00:00");
+
+        // Future reservations (Confirmed)
+        insertReservation(db, "linus_torvalds", "2026-04-10", "20:00", 6, "confirmed", "2026-01-13 11:30:00", "2026-01-13 11:30:00");
+        insertReservation(db, "linus_torvalds", "2026-05-22", "18:30", 2, "confirmed", "2026-01-14 09:15:00", "2026-01-14 09:15:00");
+        insertReservation(db, "linus_torvalds", "2026-06-05", "19:00", 5, "confirmed", "2026-01-15 14:20:00", "2026-01-15 14:20:00");
+
+        // Cancelled reservations (Mixed dates)
+        insertReservation(db, "linus_torvalds", "2026-02-14", "21:00", 2, "cancelled", "2026-01-05 15:20:00", "2026-01-10 16:00:00");
+        insertReservation(db, "linus_torvalds", "2026-03-01", "12:00", 10, "cancelled", "2026-01-08 10:00:00", "2026-01-12 11:30:00");
+        insertReservation(db, "linus_torvalds", "2026-07-20", "20:30", 4, "cancelled", "2026-01-15 08:00:00", "2026-01-16 09:45:00");
     }
 
     private void insertMenuItem(SQLiteDatabase db, String title, String description, double price, String image, int isVegan) {

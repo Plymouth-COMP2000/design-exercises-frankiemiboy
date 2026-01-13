@@ -2,8 +2,6 @@ package com.example.restaurantmanager_app.user_management;
 
 import android.content.Context;
 
-import com.example.restaurantmanager_app.user_management.User;
-import com.example.restaurantmanager_app.user_management.UserService;
 //import com.example.restaurantmanager_app.user_management.SessionManager;
 
 import java.util.List;
@@ -37,8 +35,8 @@ public class AuthManager {
 
                         sessionManager.createSession(
                                 user.getUsername(),
-                                user.getFirstname(),
-                                user.getLastname(),
+                                user.getFirstName(),
+                                user.getLastName(),
                                 user.getContact(),
                                 user.getUsertype()
                         );

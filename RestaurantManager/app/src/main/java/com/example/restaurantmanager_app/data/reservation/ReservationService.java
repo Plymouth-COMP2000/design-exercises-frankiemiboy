@@ -19,16 +19,33 @@ public class ReservationService {
     public long createNewReservation(String username, String date, String time, int partySize) {
         // Business Logic: Generate timestamps
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        return reservationDao.createReservation(username, date, time, partySize, "confirmed", now, now);
+        return reservationDao.createReservation(username, date, time, partySize, now, now);
     }
 
     public List<Reservation> getAllReservations() {
         return reservationDao.getAllReservations();
     }
 
+    public List<Reservation> getAllConfirmedReservations() {
+        return reservationDao.getAllConfirmedReservations();
+    }
+
+    public List<Reservation> getAllNotConfirmedReservations() {
+        return reservationDao.getAllNotConfirmedReservations();
+    }
+
     public List<Reservation> getUserReservations(String username) {
         return reservationDao.getUserReservations(username);
     }
+
+    public List<Reservation> getUserConfirmedReservations(String username) {
+        return reservationDao.getUserConfirmedReservations(username);
+    }
+
+    public List<Reservation> getUserNotConfirmedReservations(String username) {
+        return reservationDao.getUserNotConfirmedReservations(username);
+    }
+
 
 
     public boolean cancelExistingReservation(int reservationId) {
