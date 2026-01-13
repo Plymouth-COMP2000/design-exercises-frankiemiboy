@@ -43,6 +43,7 @@ public class ReservationsManageDialog extends DialogFragment {
         EditText dateInput = view.findViewById(R.id.dateInput);
         EditText timeInput = view.findViewById(R.id.timeInput);
         EditText guestsInput = view.findViewById(R.id.guestsInput);
+        TextView status = view.findViewById(R.id.reservationStatus);
         TextView editReservation = view.findViewById(R.id.editReservation);
         Button confirmButton = view.findViewById(R.id.confirmButton);
         Button cancelReservationButton = view.findViewById(R.id.cancelReservation_Button);
@@ -54,12 +55,17 @@ public class ReservationsManageDialog extends DialogFragment {
 
 
         if (reservation != null) {
-            //firstNameInput.setText(reservation.getUsername());
-            //lastNameInput.setText(reservation.getUsername());
-            phoneNumberInput.setText(reservation.getUsername());
+            firstNameInput.setText(reservation.getFirstName());
+            lastNameInput.setText(reservation.getLastName());
+            phoneNumberInput.setText(reservation.getPhoneNumber());
             dateInput.setText(reservation.getReservation_date());
             timeInput.setText(reservation.getReservation_time());
             guestsInput.setText(String.valueOf(reservation.getParty_size()));
+            status.setText(reservation.getStatus());
+        } else {
+            // Handle the case where reservation is null.
+            Toast.makeText(getContext(), "Failed to display reservation", Toast.LENGTH_SHORT).show();
+            dismiss();
         }
 
         // User clicks to close dialog
@@ -90,7 +96,15 @@ public class ReservationsManageDialog extends DialogFragment {
                         // TODO: Display error message to user
                         Toast toast = Toast.makeText(getContext(), "Error updating reservation", Toast.LENGTH_SHORT);
                         toast.show();
-                    };
+                    } else {
+                        // If successful, update RecyclerView and display success message
+                        Bundle result = new Bundle();
+                        result.putBoolean("refresh_needed", true);
+                        getParentFragmentManager().setFragmentResult("request_key_reservation_update", result);
+
+                        Toast toast = Toast.makeText(getContext(), "Reservation updated successfully", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 } catch (Exception e) {
                     // Handle any exceptions that may occur during data retrieval
                     e.printStackTrace();
@@ -104,7 +118,18 @@ public class ReservationsManageDialog extends DialogFragment {
             public void onClick(View v) {
                 // Change the status of reservation to cancelled
                 try {
-                    reservationService.cancelExistingReservation(reservation.getReservationId());
+                    if (reservationService.cancelExistingReservation(reservation.getReservationId())) {
+                        Bundle result = new Bundle();
+                        result.putBoolean("refresh_needed", true);
+                        getParentFragmentManager().setFragmentResult("request_key_reservation_update", result);
+
+                        Toast toast = Toast.makeText(getContext(), "Reservation cancelled successfully", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    else {
+                        Toast toast = Toast.makeText(getContext(), "Failed to cancel reservation", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 } catch (Exception e) {
                     // Handle any exceptions that may occur during data retrieval
                     e.printStackTrace();

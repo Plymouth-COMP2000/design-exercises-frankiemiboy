@@ -37,10 +37,10 @@ public class AuthManager {
 
                         sessionManager.createSession(
                                 user.getUsername(),
-                                user.getUsertype(),
                                 user.getFirstname(),
                                 user.getLastname(),
-                                user.getContact()
+                                user.getContact(),
+                                user.getUsertype()
                         );
 
                         callback.onSuccess(user.getUsertype());

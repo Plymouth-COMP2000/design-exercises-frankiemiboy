@@ -13,6 +13,13 @@ public class Reservation implements Parcelable {
     private String created_at;
     private String last_modified;
 
+    // Transient fields
+    private transient String firstName;
+    private transient String lastName;
+    private transient String phoneNumber;
+
+
+
     public Reservation(
             int reservationId, String username, String reservation_date,
             String reservation_time, int party_size, String status,
@@ -69,6 +76,7 @@ public class Reservation implements Parcelable {
         }
     };
 
+    // Getter Methods
     public int getReservationId() { return reservationId; }
     public String getUsername() { return username; }
     public String getReservation_date() { return reservation_date; }
@@ -77,5 +85,14 @@ public class Reservation implements Parcelable {
     public String getStatus() { return status; }
     public String getCreated_at() { return created_at; }
     public String getLast_modified() { return last_modified; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getPhoneNumber() { return phoneNumber; }
 
+    // Setter Methods
+    public void setTransientDetails(String firstName, String lastName, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+    }
 }

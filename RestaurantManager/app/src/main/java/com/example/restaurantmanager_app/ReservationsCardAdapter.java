@@ -37,6 +37,8 @@ public class ReservationsCardAdapter extends RecyclerView.Adapter<ReservationsCa
 
         holder.dateView.setText(reservation.getReservation_date());
         holder.timeView.setText(reservation.getReservation_time());
+        holder.nameView.setText(reservation.getFirstName() + " " + reservation.getLastName());
+        holder.phoneNumberView.setText(reservation.getPhoneNumber());
         holder.partySizeView.setText(String.valueOf(reservation.getParty_size()));
 
         // Set a click listener on the item view.
@@ -54,12 +56,16 @@ public class ReservationsCardAdapter extends RecyclerView.Adapter<ReservationsCa
     class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView dateView;
         TextView timeView;
+        TextView nameView;
+        TextView phoneNumberView;
         TextView partySizeView;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             dateView = itemView.findViewById(R.id.reservationDate);
             timeView = itemView.findViewById(R.id.reservationTime);
+            nameView = itemView.findViewById(R.id.reservationName);
+            phoneNumberView = itemView.findViewById(R.id.reservationPhoneNumber);
             partySizeView = itemView.findViewById(R.id.partySize);
         }
     }

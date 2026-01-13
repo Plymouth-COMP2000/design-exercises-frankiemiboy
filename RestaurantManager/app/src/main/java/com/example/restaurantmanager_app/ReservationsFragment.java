@@ -14,6 +14,9 @@ import android.widget.Button;
 
 
 public class ReservationsFragment extends Fragment {
+
+    private ReservationsRecyclerViewManager reservationRecyclerViewManager;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,8 +38,19 @@ public class ReservationsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ReservationsRecyclerViewManager reservationRecyclerViewManager = new ReservationsRecyclerViewManager();
+        reservationRecyclerViewManager = new ReservationsRecyclerViewManager();
         reservationRecyclerViewManager.setup(view, getContext());
+
+        // Register Listener for Reservation Updates
+        getParentFragmentManager().setFragmentResultListener(
+                "request_key_reservation_update",
+                this,
+                (requestKey, result) -> {
+                    if (result.getBoolean("refresh_needed")) {
+                        reservationRecyclerViewManager.loadData();
+                    }
+                }
+        );
     }
 
 }

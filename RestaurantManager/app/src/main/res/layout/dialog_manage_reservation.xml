@@ -111,6 +111,26 @@
         android:layout_marginTop="12dp"/>
 
     <TextView
+        android:id="@+id/reservationStatusLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="16dp"
+        android:text="Reservation Status:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/guestsInput"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/reservationStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:text="Status"
+        app:layout_constraintTop_toTopOf="@id/reservationStatusLabel"
+        app:layout_constraintStart_toEndOf="@id/reservationStatusLabel"/>
+
+    <TextView
         android:id="@+id/editReservation"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
@@ -119,7 +139,7 @@
         android:text="Edit Reservation Details"
         android:textStyle="bold"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@+id/guestsInput"
+        app:layout_constraintTop_toBottomOf="@+id/reservationStatusLabel"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- Buttons -->
