@@ -58,7 +58,7 @@ public class ReservationsRecyclerViewManager {
         // Fetch API Users (Asynchronous)
         String studentId = "10933458";
         List<Reservation> finalReservations = reservations;
-        UserService.getAllUsers(context, studentId, new UserService.UserResponseCallback() {
+        UserService.getAllUsers(context, studentId, new UserService.UsersResponseCallback() {
             @Override
             public void onSuccess(List<User> apiUsers) {
                 // MERGE DATA: Map Users to Reservations

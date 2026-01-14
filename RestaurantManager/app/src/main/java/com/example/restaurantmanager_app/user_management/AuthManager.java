@@ -22,7 +22,7 @@ public class AuthManager {
             String inputPassword,
             AuthCallback callback
     ) {
-        UserService.getAllUsers(context, studentId, new UserService.UserResponseCallback() {
+        UserService.getAllUsers(context, studentId, new UserService.UsersResponseCallback() {
 
             // If authentication is successful, create a session and return the user type
             // Else return an error message

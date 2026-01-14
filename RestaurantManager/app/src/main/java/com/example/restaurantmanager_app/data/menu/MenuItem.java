@@ -75,4 +75,7 @@ public class MenuItem implements Parcelable {
     public String getImageUri() { return imageUri; }
     public boolean isVegan() { return isVegan; }
     public boolean isAvailable() { return isAvailable; }
+
+    // One setter method to change availability on MenuManageItemDialog
+    public void setAvailable(boolean isAvailable) { this.isAvailable = isAvailable; }
 }

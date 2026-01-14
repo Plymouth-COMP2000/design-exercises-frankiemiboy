@@ -26,7 +26,7 @@ public class HomeRecyclerViewManager {
     }
 
     private void loadData() {
-        itemList.add(new HomeCardItem(R.drawable.ic_launcher_background, "Explore Our Menu", "Take a look at our menu from our different categories, made by our top-level chefs from all across the globe", new MenuFragment()));
+        itemList.add(new HomeCardItem(R.drawable.ic_launcher_background, "Explore Our Menu", "Take a look at our menu from our different categories, made by our top-level chefs from all across the globe", new MenuGuestFragment()));
         itemList.add(new HomeCardItem(R.drawable.ic_launcher_background, "View Your Reservations", "View the current reservations you have booked and their status", new ReservationsFragment()));
         itemList.add(new HomeCardItem(R.drawable.ic_launcher_background, "Your Notifications", "View all of your notifications and manage which notification you would like to be notified of", new NotificationsFragment()));
     }

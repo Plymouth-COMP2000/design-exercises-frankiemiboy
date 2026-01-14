@@ -102,7 +102,6 @@ public class ReservationsManageDialog extends DialogFragment {
                 try {
                     if (!reservationService.updateExistingReservation(reservation.getReservationId(), dateInput.getText().toString(), timeInput.getText().toString(), Integer.parseInt(guestsInput.getText().toString()))) {
                         // If unsuccessful, display error message
-                        // TODO: Display error message to user
                         Toast toast = Toast.makeText(getContext(), "Error updating reservation", Toast.LENGTH_SHORT);
                         toast.show();
                     } else {

@@ -5,12 +5,10 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.example.restaurantmanager_app.user_management.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,7 +36,7 @@ public class UserService {
     public static void getAllUsers(
             Context context,
             String studentId,
-            UserResponseCallback callback
+            UsersResponseCallback callback
     ) {
         initQueue(context);
         String url = BASE_URL + "/read_all_users/" + studentId;
@@ -114,9 +112,15 @@ public class UserService {
     }
 
 
-    // Callback interface
-    public interface UserResponseCallback {
+    // Callback interface for list of Users
+    public interface UsersResponseCallback {
         void onSuccess(List<User> users);
+        void onError(String message);
+    }
+
+    // Callback interface for single User
+    public interface UserResponseCallback {
+        void onSuccess(User user);
         void onError(String message);
     }
 }

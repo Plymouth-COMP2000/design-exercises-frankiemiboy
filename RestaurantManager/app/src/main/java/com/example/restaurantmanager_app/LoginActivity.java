@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailInput;
     private EditText passwordInput;
     private Button submitButton;
+    private TextView registerLink;
+
 
     private AuthManager authManager;
 
@@ -27,11 +30,18 @@ public class LoginActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         submitButton = findViewById(R.id.submitButton);
+        registerLink = findViewById(R.id.link_to_register);
+
 
         authManager = new AuthManager(this);
 
         submitButton.setOnClickListener(v -> {
             attemptLogin();
+        });
+
+        registerLink.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SignUpActivity.class);
+            startActivity(intent);
         });
     }
 

@@ -70,6 +70,7 @@ public class ReservationsCreateDialog extends DialogFragment {
                     toast.show();
                     Bundle result = new Bundle();
                     result.putBoolean("refresh_needed", true);
+                    getParentFragmentManager().setFragmentResult("request_key_reservation_update", result);
                 } else {
                     // If unsuccessful, display error message
                     Toast toast = Toast.makeText(getContext(), "Ran into issue. Most likely invalid data entered", Toast.LENGTH_SHORT);
@@ -77,8 +78,9 @@ public class ReservationsCreateDialog extends DialogFragment {
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
+            } finally {
+                dismiss();
             }
-            dismiss();
         });
 
         return view;

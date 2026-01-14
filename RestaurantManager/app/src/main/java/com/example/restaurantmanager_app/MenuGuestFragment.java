@@ -2,7 +2,6 @@
 package com.example.restaurantmanager_app;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class MenuFragment extends Fragment {
+public class MenuGuestFragment extends Fragment {
 
     @Nullable
     @Override

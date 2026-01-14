@@ -2,6 +2,7 @@
 package com.example.restaurantmanager_app;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantmanager_app.data.menu.MenuItem;
+import com.example.restaurantmanager_app.user_management.SessionManager;
 
 import java.util.List;
 
@@ -20,10 +22,12 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
 
     private Context context;
     private List<MenuItem> itemList;
+    SessionManager sessionManager;
 
     public MenuCardAdapter(Context context, List<MenuItem> itemList) {
         this.context = context;
         this.itemList = itemList;
+        sessionManager = new SessionManager(context);
     }
 
     @NonNull
@@ -47,7 +51,16 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
             // When the item is clicked, create a new instance of the MenuItemDetailsDialog and show it.
             // We pass the MenuItem to the newInstance method, which will be displayed in the dialog.
             // We also need to get the FragmentManager from the context to show the dialog.
-            MenuItemDetailsDialog.newInstance(item).show(((AppCompatActivity) context).getSupportFragmentManager(), "menu_item_details_dialog");
+            if (sessionManager.getRole().equals("guest")) {
+                MenuGuestItemDetailsDialog dialog = MenuGuestItemDetailsDialog.newInstance(item);
+                dialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "dialog_guest_menu_item");
+                Log.d("MenuCardAdapter", "Role is guest");
+            }
+            else {
+                MenuManageItemDialog dialog = MenuManageItemDialog.newInstance(item);
+                dialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "dialog_staff_menu_item");
+                Log.d("MenuCardAdapter", "Role is staff");
+            }
         });
     }
 

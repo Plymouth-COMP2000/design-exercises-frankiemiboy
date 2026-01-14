@@ -98,7 +98,9 @@ public class ReservationDao {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query to retrieve all reservations;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE status = 'confirmed'";
+        String query =  "SELECT * FROM " + TABLE_NAME +
+                        " WHERE status = 'confirmed'" + " " +
+                        "ORDER BY reservation_date DESC, reservation_time DESC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -128,7 +130,9 @@ public class ReservationDao {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query to retrieve all reservations;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE status != 'confirmed'";
+        String query =  "SELECT * FROM " + TABLE_NAME + " " +
+                        "WHERE status != 'confirmed'" + " " +
+                        "ORDER BY reservation_date DESC, reservation_time DESC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -157,7 +161,9 @@ public class ReservationDao {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query to retrieve all reservations for a specific user;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+        String query =  "SELECT * FROM " + TABLE_NAME + " " +
+                        "WHERE username = ?" + " " +
+                        "ORDER BY reservation_date DESC, reservation_time DESC";
         Cursor cursor = db.rawQuery(query, new String[]{username});
 
         if (cursor.moveToFirst()) {
@@ -189,7 +195,7 @@ public class ReservationDao {
         String query = "SELECT * " +
                 "FROM " + TABLE_NAME + " " +
                 "WHERE username = ? AND status = 'confirmed' " +
-                "ORDER BY reservation_date DESC";
+                "ORDER BY reservation_date DESC, reservation_time DESC";
         Cursor cursor = db.rawQuery(query, new String[]{username});
 
         if (cursor.moveToFirst()) {
@@ -221,7 +227,7 @@ public class ReservationDao {
         String query = "SELECT * " +
                 "FROM " + TABLE_NAME + " " +
                 "WHERE username = ? AND status != 'confirmed' " +
-                "ORDER BY reservation_date DESC";
+                "ORDER BY reservation_date DESC, reservation_time DESC";
         Cursor cursor = db.rawQuery(query, new String[]{username});
 
         if (cursor.moveToFirst()) {

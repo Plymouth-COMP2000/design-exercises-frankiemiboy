@@ -17,14 +17,14 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.restaurantmanager_app.data.menu.MenuItem;
 
-public class MenuItemDetailsDialog extends DialogFragment {
+public class MenuGuestItemDetailsDialog extends DialogFragment {
 
     // A constant to use as a key for the MenuItem in the arguments bundle.
     private static final String ARG_MENU_ITEM = "menu_item";
 
     // A factory method to create a new instance of this dialog, which allows us to pass in a MenuItem.
-    public static MenuItemDetailsDialog newInstance(MenuItem menuItem) {
-        MenuItemDetailsDialog fragment = new MenuItemDetailsDialog();
+    public static MenuGuestItemDetailsDialog newInstance(MenuItem menuItem) {
+        MenuGuestItemDetailsDialog fragment = new MenuGuestItemDetailsDialog();
         Bundle args = new Bundle();
         // The MenuItem is put into the arguments bundle. This is the standard way to pass data to a fragment.
         args.putParcelable(ARG_MENU_ITEM, menuItem);
