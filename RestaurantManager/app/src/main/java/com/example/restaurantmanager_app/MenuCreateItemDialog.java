@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.example.restaurantmanager_app.data.menu.MenuService;
 // ISSUE FOUND IN THIS CLASS
 // TODO Figure out why this dialog keeps crashing when created
 public class MenuCreateItemDialog extends DialogFragment {
+
     public static MenuCreateItemDialog newInstance() {
         return new MenuCreateItemDialog();
     }
@@ -34,7 +36,7 @@ public class MenuCreateItemDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button closeButton = view.findViewById(R.id.create_menu_closeButton);
+        ImageButton closeButton = view.findViewById(R.id.create_menu_closeButton);
         EditText menuTitleInput = view.findViewById(R.id.titleInput);
         EditText menuPriceInput = view.findViewById(R.id.priceInput);
         EditText menuDescriptionInput = view.findViewById(R.id.descriptionInput);
@@ -49,10 +51,17 @@ public class MenuCreateItemDialog extends DialogFragment {
 
         saveButton.setOnClickListener(v -> {
             String title = menuTitleInput.getText().toString();
-            double price = Double.parseDouble(menuPriceInput.getText().toString());
+            String priceString = menuPriceInput.getText().toString();
             String description = menuDescriptionInput.getText().toString();
 
+            // Check whether all fields have been filled
+            if (title.isEmpty() || priceString.isEmpty() || description.isEmpty()) {
+                Toast.makeText(getContext(), "Please fill in all fields!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             try {
+                double price = Double.parseDouble(priceString); // Cast the price to a double value
                 if (menuService.createNewMenuItem(title, "prototype_image", price, description)) {
                     Toast toast = Toast.makeText(getContext(), "Menu item created successfully", Toast.LENGTH_SHORT);
                     toast.show();
@@ -61,8 +70,7 @@ public class MenuCreateItemDialog extends DialogFragment {
                     getParentFragmentManager().setFragmentResult("request_key_menu_update", result);
                 }
                 else {
-                    Toast toast = Toast.makeText(getContext(), "Ran into issue. Most likely invalid data entered", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(getContext(), "Ran into issue. Most likely invalid data entered", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
