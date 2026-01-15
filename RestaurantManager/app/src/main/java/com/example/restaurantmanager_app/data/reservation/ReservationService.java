@@ -3,6 +3,8 @@ package com.example.restaurantmanager_app.data.reservation;// In your other Java
 import android.content.Context;
 import android.util.Log;
 
+import com.example.restaurantmanager_app.data.notification.NotificationDao;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -11,8 +13,11 @@ import java.util.List;
 public class ReservationService {
 
     private ReservationDao reservationDao;
+    private Context context;
+
 
     public ReservationService(Context context) {
+        this.context = context;
         this.reservationDao = new ReservationDao(context);
     }
 
@@ -26,37 +31,48 @@ public class ReservationService {
         return reservationDao.getAllReservations();
     }
 
-    public List<Reservation> getAllConfirmedReservations() {
-        return reservationDao.getAllConfirmedReservations();
-    }
-
-    public List<Reservation> getAllNotConfirmedReservations() {
-        return reservationDao.getAllNotConfirmedReservations();
-    }
-
     public List<Reservation> getUserReservations(String username) {
         return reservationDao.getUserReservations(username);
     }
 
-    public List<Reservation> getUserConfirmedReservations(String username) {
-        return reservationDao.getUserConfirmedReservations(username);
-    }
-
-    public List<Reservation> getUserNotConfirmedReservations(String username) {
-        return reservationDao.getUserNotConfirmedReservations(username);
-    }
-
-
-
     public boolean cancelExistingReservation(int reservationId) {
+        // Find out who owns the reservation
+        Reservation reservation = reservationDao.getReservationById(reservationId);
+        String username = reservation.getUsername();
+
+        // Cancel the reservation
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         int rowsAffected = reservationDao.cancelReservation(reservationId, now);
-        return rowsAffected > 0;
+
+        if (rowsAffected > 0)
+        {
+            // Send a notification to the user
+            NotificationDao notificationDao = new NotificationDao(context);
+            String title = "Reservation Cancelled";
+            String message =    "Your reservation for " + reservation.getReservation_date() +
+                                " at " + reservation.getReservation_time() + " has been cancelled.";
+            notificationDao.createNotification(username, reservationId, title, message);
+            return true;
+        }
+        return false;
     }
 
     public boolean updateExistingReservation(int reservationId, String newDate, String newTime, int newPartySize) {
+        // Find owner of reservation
+        Reservation reservation = reservationDao.getReservationById(reservationId);
+        String username = reservation.getUsername();
+
+        // Update the reservation
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         int rowsAffected = reservationDao.updateReservation(reservationId, newDate, newTime, newPartySize, "confirmed", now);
+
+        if (rowsAffected > 0) {
+            NotificationDao notificationDao = new NotificationDao(context);
+            String title = "Reservation Updated";
+            String message =    "Your reservation for " + reservation.getReservation_date() +
+                                " at " + reservation.getReservation_time() + " has been updated.";
+            notificationDao.createNotification(username, reservationId, title, message);
+        }
         Log.d("ReservationService", "Rows affected: " + rowsAffected);
         return rowsAffected > 0;
     }

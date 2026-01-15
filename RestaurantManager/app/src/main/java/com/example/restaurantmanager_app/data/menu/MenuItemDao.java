@@ -52,62 +52,6 @@ public class MenuItemDao {
 
 
     // ---------------- READ OPERATIONS -------------------
-    public List<MenuItem> getAllAvailableMenuItems() {
-
-        List<MenuItem> menuItems = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Query to retrieve all available menu items;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE is_available = 1";
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
-                double price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"));
-                String image = cursor.getString(cursor.getColumnIndexOrThrow("image"));
-                boolean isVegan = cursor.getInt(cursor.getColumnIndexOrThrow("is_vegan")) == 1;
-                boolean isAvailable = cursor.getInt(cursor.getColumnIndexOrThrow("is_available")) == 1;
-
-                MenuItem menuItem = new MenuItem(id, title, description, price, image, isVegan, isAvailable);
-                menuItems.add(menuItem);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return menuItems;
-    }
-
-    public List<MenuItem> getAllUnavailableMenuItems() {
-
-        List<MenuItem> menuItems = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Query to retrieve all available menu items;
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE is_available = 0";
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
-                double price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"));
-                String image = cursor.getString(cursor.getColumnIndexOrThrow("image"));
-                boolean isVegan = cursor.getInt(cursor.getColumnIndexOrThrow("is_vegan")) == 1;
-                boolean isAvailable = cursor.getInt(cursor.getColumnIndexOrThrow("is_available")) == 1;
-
-                MenuItem menuItem = new MenuItem(id, title, description, price, image, isVegan, isAvailable);
-                menuItems.add(menuItem);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return menuItems;
-    }
-
     public List<MenuItem> getAllMenuItems() {
         List<MenuItem> menuItems = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();

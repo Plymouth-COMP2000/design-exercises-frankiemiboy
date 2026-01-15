@@ -12,7 +12,7 @@ import com.example.restaurantmanager_app.data.reservation.ReservationDao;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "restaurant.db";
-    private static final int DB_VERSION = 4; // Incremented version
+    private static final int DB_VERSION = 7; // Incremented version
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -32,6 +32,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertDummyNotificationPreferences(db);
     }
 
+    public void onConfigure(SQLiteDatabase db) {
+        db.setForeignKeyConstraintsEnabled(true);
+    }
+
+
+
     private void insertDummyMenuItems(SQLiteDatabase db) {
         insertMenuItem(db, "Margherita Pizza", "Classic cheese and tomato pizza", 8.99, "prototype_image", 1);
         insertMenuItem(db, "Spaghetti Carbonara", "Creamy pasta with bacon and parmesan", 10.50, "prototype_image", 1);
@@ -44,6 +50,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertNotification(db, "user2", 2, "New Menu Item", "We've added a new item to our menu!", "2023-08-29 11:45:00");
         insertNotification(db, "user3", 3, "Reservation Cancellation", "Your reservation has been cancelled.", "2023-08-27 12:05:00");
         insertNotification(db, "hill_banks", 4, "Reservation Changed", "We've added a new item to our menu", "2023-08-27 12:05:00");
+        // --- Confirmed Future Reservations ---
+        // ID 8
+        insertNotification(db, "linus_torvalds", 8, "Reservation Confirmed", "Your table for 6 people is confirmed for April 10th.", "2026-01-13 11:35:00");
+
+        // ID 13
+        insertNotification(db, "linus_torvalds", 13, "Reservation Reminder", "Don't forget your dinner reservation coming up on May 22nd.", "2026-05-20 09:00:00");
+
+        // ID 15
+        insertNotification(db, "linus_torvalds", 15, "New Menu Launch", "We'll be serving our new summer menu during your visit on June 5th!", "2026-05-25 14:00:00");
+
+
+        // --- Cancelled Reservations ---
+        // ID 16
+        insertNotification(db, "linus_torvalds", 16, "Reservation Cancelled", "Your booking for Valentine's Day (ID #16) has been cancelled.", "2026-01-10 16:05:00");
+
+        // ID 17
+        insertNotification(db, "linus_torvalds", 17, "Refund Processed", "The deposit for cancelled reservation #17 has been refunded to your card.", "2026-01-12 12:00:00");
+
+
+        // --- Past / Expired Reservations ---
+        // ID 18
+        insertNotification(db, "linus_torvalds", 18, "Rate Your Visit", "Thanks for dining with us last November! How was the service?", "2025-11-16 09:00:00");
+
+        // ID 19
+        insertNotification(db, "linus_torvalds", 19, "We Miss You", "It's been a while since your visit in December. Book again soon!", "2026-01-05 10:00:00");
+
+
+        // --- More Future Reservations ---
+        // ID 20
+        insertNotification(db, "linus_torvalds", 20, "Reservation Update", "We have noted your request for a high chair for reservation #20.", "2026-01-15 08:30:00");
+
+        // ID 21
+        insertNotification(db, "linus_torvalds", 21, "Reservation Confirmed", "Your table for 2 is all set for July 20th.", "2026-06-15 11:20:00");
+
+        // ID 22
+        insertNotification(db, "linus_torvalds", 22, "Chef's Special", "Pre-order the Chef's Special for your upcoming visit (ID #22).", "2026-07-01 17:45:00");
     }
 
     private void insertDummyNotificationPreferences(SQLiteDatabase db) {

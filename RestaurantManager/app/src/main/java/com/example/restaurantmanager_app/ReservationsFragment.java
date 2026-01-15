@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.example.restaurantmanager_app.user_management.SessionManager;
 
@@ -24,12 +27,38 @@ public class ReservationsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reservations, container, false);
 
+        // Set up the spinner
+        Spinner filterSpinner = view.findViewById(R.id.filterSpinner);
+
+        // Options for the spinner
+        String[] filterOptions = {"Confirmed", "All"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, filterOptions);
+        filterSpinner.setAdapter(adapter);
+
+        // Selection logic
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedFilter = filterOptions[position];
+
+                if (reservationRecyclerViewManager != null) {
+                    reservationRecyclerViewManager.filterReservations(selectedFilter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+
         Button createReservationButton = view.findViewById(R.id.createReservationButton);
         createReservationButton.setOnClickListener(v -> {
             ReservationsCreateDialog dialog = ReservationsCreateDialog.newInstance();
             dialog.show(getParentFragmentManager(), "create_reservation");
         });
 
+        // For this application version, only guests can create reservations
         SessionManager sessionManager = new SessionManager(getContext());
         if (sessionManager.getRole().equals("staff")) {
             createReservationButton.setVisibility(View.GONE);
@@ -41,6 +70,7 @@ public class ReservationsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         reservationRecyclerViewManager = new ReservationsRecyclerViewManager();
         reservationRecyclerViewManager.setup(view, getContext());
 

@@ -25,14 +25,6 @@ public class MenuService {
         return menuItemDao.getAllMenuItems();
     }
 
-    public List<MenuItem> getAllAvailableMenuItems() {
-        return menuItemDao.getAllAvailableMenuItems();
-    }
-
-    public List<MenuItem> getAllUnavailableMenuItems() {
-        return menuItemDao.getAllUnavailableMenuItems();
-    }
-
     // -------------- UPDATE ------------------
     public boolean updateExistingMenuItem(int menuItemId, String title, String imageUri, double price, String description) {
         return menuItemDao.updateMenuItem(menuItemId, title, imageUri, price, description);

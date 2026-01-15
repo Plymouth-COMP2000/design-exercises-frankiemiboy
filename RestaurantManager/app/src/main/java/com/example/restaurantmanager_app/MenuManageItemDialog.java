@@ -72,9 +72,11 @@ public class MenuManageItemDialog extends DialogFragment {
             }
         }
 
-        // Set a click listener on the close button to dismiss the dialog.
+        // Listener for close button: Dismiss and refresh recycler view
         closeButton.setOnClickListener(v -> {
-            Log.d("MenuManageItemDialog", "Close button clicked");
+            Bundle result = new Bundle();
+            result.putBoolean("refresh_needed", true);
+            getParentFragmentManager().setFragmentResult("request_key_menu_update", result);
             dismiss();
         });
 
@@ -92,6 +94,10 @@ public class MenuManageItemDialog extends DialogFragment {
 
         // Click listener to enable editing
         editMenuItem.setOnClickListener(v -> {
+            // Remove currency sign from price
+            String priceString = priceInput.getText().toString().replace("£", "");
+            priceInput.setText(priceString);
+
             titleInput.setEnabled(true);
             priceInput.setEnabled(true);
             descriptionInput.setEnabled(true);
@@ -108,26 +114,23 @@ public class MenuManageItemDialog extends DialogFragment {
                         Double.parseDouble(priceInput.getText().toString()),
                         descriptionInput.getText().toString())
                 ) {
-                    Toast toast = Toast.makeText(getContext(), "Menu item updated successfully", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(getContext(), "Menu item updated successfully", Toast.LENGTH_SHORT).show();
                     Bundle result = new Bundle();
                     result.putBoolean("refresh_needed", true);
                     getParentFragmentManager().setFragmentResult("request_key_menu_update", result);
                 }
                 else {
-                    Toast toast = Toast.makeText(getContext(), "Failed to update menu item", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(getContext(), "Failed to update menu item", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 // Handle any exceptions that may occur during data retrieval
-                e.printStackTrace();
+                Toast.makeText(getContext(), "Failed to update menu item", Toast.LENGTH_SHORT).show();
             } finally {
                 dismiss();
-
             }
 
         });
-        Log.d("MenuManageItemDialog", "onCreateView() called");
+
         return view;
     }
 

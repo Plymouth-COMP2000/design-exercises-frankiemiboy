@@ -60,6 +60,7 @@ public class ReservationDao {
         return newRowId;
     }
 
+
     // ---------- READ OPERATIONS --------------------
     // This is for staff members that will have access to all reservations
     public List<Reservation> getAllReservations() {
@@ -69,70 +70,6 @@ public class ReservationDao {
 
         // Query to retrieve all reservations;
         String query = "SELECT * FROM " + TABLE_NAME;
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
-                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
-                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
-                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
-                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
-                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
-                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
-
-                Reservation reservation = new Reservation(id, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
-                reservations.add(reservation);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return reservations;
-    }
-
-    // Perhaps staff only wants to see Reservations that are confirmed;
-    public List<Reservation> getAllConfirmedReservations() {
-
-        List<Reservation> reservations = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Query to retrieve all reservations;
-        String query =  "SELECT * FROM " + TABLE_NAME +
-                        " WHERE status = 'confirmed'" + " " +
-                        "ORDER BY reservation_date DESC, reservation_time DESC";
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
-                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
-                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
-                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
-                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
-                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
-                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
-
-                Reservation reservation = new Reservation(id, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
-                reservations.add(reservation);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return reservations;
-    }
-
-    // Shows staff only Reservations that are not confirmed
-    public List<Reservation> getAllNotConfirmedReservations() {
-
-        List<Reservation> reservations = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Query to retrieve all reservations;
-        String query =  "SELECT * FROM " + TABLE_NAME + " " +
-                        "WHERE status != 'confirmed'" + " " +
-                        "ORDER BY reservation_date DESC, reservation_time DESC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -186,74 +123,39 @@ public class ReservationDao {
         return reservations;
     }
 
-    // Strictly shows guests reservations that are confirmed
-    public List<Reservation> getUserConfirmedReservations(String username) {
-        List<Reservation> reservations = new ArrayList<>();
+    // This method is used to get a reservation by its ID
+    public Reservation getReservationById(int reservationId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Query to retrieve all reservations for a specific user;
-        String query = "SELECT * " +
-                "FROM " + TABLE_NAME + " " +
-                "WHERE username = ? AND status = 'confirmed' " +
-                "ORDER BY reservation_date DESC, reservation_time DESC";
-        Cursor cursor = db.rawQuery(query, new String[]{username});
+        // Query to retrieve the reservation
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(reservationId)});
 
         if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String reservationUsername = cursor.getString(cursor.getColumnIndexOrThrow("username"));
-                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
-                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
-                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
-                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
-                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
-                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
+            String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+            String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
+            String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
+            int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
+            String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
+            String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
+            String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
 
-                Reservation reservation = new Reservation(id, reservationUsername, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
-                reservations.add(reservation);
-            } while (cursor.moveToNext());
+            Reservation reservation = new Reservation(reservationId, username, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
+            cursor.close();
+            return reservation;
+        } else {
+            cursor.close();
+            return null; // Return null if no reservation is found
         }
-
-        cursor.close();
-        return reservations;
-    }
-
-    // Strictly shows guests reservations that are not confirmed
-    public List<Reservation> getUserNotConfirmedReservations(String username) {
-        List<Reservation> reservations = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Query to retrieve all reservations for a specific user;
-        String query = "SELECT * " +
-                "FROM " + TABLE_NAME + " " +
-                "WHERE username = ? AND status != 'confirmed' " +
-                "ORDER BY reservation_date DESC, reservation_time DESC";
-        Cursor cursor = db.rawQuery(query, new String[]{username});
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String reservationUsername = cursor.getString(cursor.getColumnIndexOrThrow("username"));
-                String reservationDate = cursor.getString(cursor.getColumnIndexOrThrow("reservation_date"));
-                String reservationTime = cursor.getString(cursor.getColumnIndexOrThrow("reservation_time"));
-                int partySize = cursor.getInt(cursor.getColumnIndexOrThrow("party_size"));
-                String status = cursor.getString(cursor.getColumnIndexOrThrow("status")).toUpperCase();
-                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
-                String lastModified = cursor.getString(cursor.getColumnIndexOrThrow("last_modified"));
-
-                Reservation reservation = new Reservation(id, reservationUsername, reservationDate, reservationTime, partySize, status, createdAt, lastModified);
-                reservations.add(reservation);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return reservations;
     }
 
 
     // ------------------ UPDATE OPERATIONS -------------------
     // This method is used to update a reservation in the database
-    public int updateReservation(int reservationId, String newDate, String newTime, int newPartySize, String status, String lastModified) {
+    public int updateReservation(
+            int reservationId, String newDate, String newTime,
+            int newPartySize, String status, String lastModified
+    ) {
         // 1. Get the writable database
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -275,12 +177,7 @@ public class ReservationDao {
 
         // 4. Update the row
         // db.update() method returns the number of rows affected by update.
-        int count = db.update(
-                ReservationDao.TABLE_NAME,
-                values,
-                selection,
-                selectionArgs
-        );
+        int count = db.update(TABLE_NAME, values, selection, selectionArgs);
         db.close();
         return count; // Returns 1 if successful, 0 if no row was found with that ID
     }
@@ -308,7 +205,7 @@ public class ReservationDao {
         // 1. Get the writable database
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        db.delete(ReservationDao.TABLE_NAME, "id = ?", new String[]{String.valueOf(reservationId)});
+        db.delete(TABLE_NAME, "id = ?", new String[]{String.valueOf(reservationId)});
         db.close();
         return 1; // Returns 1 if successful, 0 if no row was found with that ID
     }

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantmanager_app.data.notification.Notification;
+import com.example.restaurantmanager_app.data.notification.NotificationDao;
 
 import java.util.List;
 
@@ -17,10 +19,12 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
 
     private Context context;
     private List<Notification> notificationList;
+    private Runnable refreshListener;
 
-    public NotificationCardAdapter(Context context, List<Notification> notificationList) {
+    public NotificationCardAdapter(Context context, List<Notification> notificationList, Runnable refreshListener) {
         this.context = context;
         this.notificationList = notificationList;
+        this.refreshListener = refreshListener;
     }
 
     @NonNull
@@ -37,6 +41,16 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
         holder.titleView.setText(notification.getTitle());
         holder.messageView.setText(notification.getMessage());
         holder.dateView.setText(String.format("%s, %s", notification.getCreatedAt().substring(11, 16), notification.getCreatedAt().substring(0, 10)));
+        holder.markReadButton.setOnClickListener(v -> {
+            // Update the Database
+            NotificationDao notificationDao = new NotificationDao(context);
+            notificationDao.markNotificationAsRead(notification.getNotificationId());
+
+            // Reload data
+            if (refreshListener != null) {
+                refreshListener.run();
+            }
+        });
     }
 
     @Override
@@ -48,12 +62,15 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
         TextView titleView;
         TextView messageView;
         TextView dateView;
+        ImageButton markReadButton;
+
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             titleView = itemView.findViewById(R.id.notificationTitle);
             messageView = itemView.findViewById(R.id.notificationContent);
             dateView = itemView.findViewById(R.id.notificationTime);
+            markReadButton = itemView.findViewById(R.id.mark_read_button);
         }
     }
 }
