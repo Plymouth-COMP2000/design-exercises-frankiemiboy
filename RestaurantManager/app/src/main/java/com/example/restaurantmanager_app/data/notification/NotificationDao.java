@@ -193,4 +193,13 @@ public class NotificationDao {
         db.close();
         return count;
     }
+
+
+    // ---------------------- DELETE ---------------------
+    public boolean deleteAllUserNotifications(String username) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(TABLE_NAME, "username = ?", new String[]{username});
+        db.close();
+        return true;
+    }
 }

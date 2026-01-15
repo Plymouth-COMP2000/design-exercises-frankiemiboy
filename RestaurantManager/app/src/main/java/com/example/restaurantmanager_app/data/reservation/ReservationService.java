@@ -81,4 +81,8 @@ public class ReservationService {
         int rowsAffected = reservationDao.deleteReservation(reservationId);
         return rowsAffected > 0;
     }
+
+    public boolean deleteAllUserReservations(String username) {
+        return reservationDao.deleteAllUserReservations(username);
+    }
 }

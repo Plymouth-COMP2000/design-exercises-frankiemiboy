@@ -18,8 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordInput;
     private Button submitButton;
     private TextView registerLink;
-
-
     private AuthManager authManager;
 
     @Override

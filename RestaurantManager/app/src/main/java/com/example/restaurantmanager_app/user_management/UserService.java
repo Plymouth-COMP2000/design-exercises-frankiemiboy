@@ -61,7 +61,38 @@ public class UserService {
                     callback.onError("API request failed");
                 }
         );
+        requestQueue.add(request);
+    }
 
+    // GET: /read_user/{student_id}/{username}
+    public static void getSingleUser(
+            Context context,
+            String studentId,
+            String username,
+            UserResponseCallback callback
+    ) {
+        initQueue(context);
+        String url = BASE_URL + "/read_user/" + studentId + "/" + username;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        JSONObject userObject = response.getJSONObject("user");
+                        User user = gson.fromJson(userObject.toString(), User.class);
+                        callback.onSuccess(user);
+                    } catch (Exception e) {
+                        Log.e("UserService", "Parsing error", e);
+                        callback.onError("Parsing error");
+                    }
+                },
+                error -> {
+                    Log.e("UserService", "Volley error: ", error);
+                    callback.onError("API request failed");
+                }
+        );
         requestQueue.add(request);
     }
 
@@ -94,6 +125,86 @@ public class UserService {
                 Request.Method.POST,
                 url,
                 requestBody,
+                response -> {
+                    try {
+                        callback.onSuccess(null);
+                    } catch (Exception e) {
+                        Log.e("UserService", "Parsing error", e);
+                        callback.onError("Parsing error");
+                    }
+                },
+                error -> {
+                    Log.e("UserService", "Volley error: ", error);
+                    callback.onError("API request failed");
+                }
+        );
+
+        requestQueue.add(request);
+    }
+
+
+    // PUT: /update_user/{student_id}/{username}
+    public static void updateUser(
+            Context context,
+            String studentId,
+            String username,
+            User user,
+            UserResponseCallback callback
+    ) {
+        initQueue(context);
+        String url = BASE_URL + "/update_user/" + studentId + "/" + username;
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("username", user.getUsername());
+            requestBody.put("password", user.getPassword());
+            requestBody.put("firstname", user.getFirstName());
+            requestBody.put("lastname", user.getLastName());
+            requestBody.put("email", user.getEmail());
+            requestBody.put("contact", user.getContact());
+            requestBody.put("usertype", user.getUsertype());
+        } catch (Exception e) {
+            Log.e("UserService", "JSON creation error", e);
+            callback.onError("JSON creation error");
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                requestBody,
+                response -> {
+                    try {
+                        callback.onSuccess(null);
+                    } catch (Exception e) {
+                        Log.e("UserService", "Parsing error", e);
+                        callback.onError("Parsing error");
+                    }
+                },
+                error -> {
+                    Log.e("UserService", "Volley error: ", error);
+                    callback.onError("API request failed");
+                }
+        );
+
+        requestQueue.add(request);
+    }
+
+
+    // DELETE: /delete_user/{student_id}/{username}
+    public static void deleteUser(
+            Context context,
+            String studentId,
+            String username,
+            UserResponseCallback callback
+    ) {
+        initQueue(context);
+        String url = BASE_URL + "/delete_user/" + studentId + "/" + username;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                null,
                 response -> {
                     try {
                         callback.onSuccess(null);

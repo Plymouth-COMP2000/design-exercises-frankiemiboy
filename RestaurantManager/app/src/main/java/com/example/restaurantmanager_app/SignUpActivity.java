@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restaurantmanager_app.user_management.AuthCallback;
-import com.example.restaurantmanager_app.user_management.NewUser;
+import com.example.restaurantmanager_app.user_management.AuthManager;
 import com.example.restaurantmanager_app.user_management.User;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView registerLink;
     Button submitButton;
 
-    private NewUser newUser;
+    private AuthManager authManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
         registerLink = findViewById(R.id.link_to_login);
         submitButton = findViewById(R.id.submitButton);
 
-        newUser = new NewUser(this);
+        authManager = new AuthManager(this);
 
         submitButton.setOnClickListener(v -> {
             attemptRegister();
@@ -86,7 +86,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
 
-        newUser.register(
+        authManager.register(
                 "10933458",
                 new User(username, password, firstName, lastName, email, contact, userType),
                 new AuthCallback() {

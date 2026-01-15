@@ -69,7 +69,8 @@ public class ReservationDao {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Query to retrieve all reservations;
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query =  "SELECT * FROM " + TABLE_NAME + " " +
+                        "ORDER BY reservation_date ASC, reservation_time ASC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -100,7 +101,7 @@ public class ReservationDao {
         // Query to retrieve all reservations for a specific user;
         String query =  "SELECT * FROM " + TABLE_NAME + " " +
                         "WHERE username = ?" + " " +
-                        "ORDER BY reservation_date DESC, reservation_time DESC";
+                        "ORDER BY reservation_date ASC, reservation_time ASC";
         Cursor cursor = db.rawQuery(query, new String[]{username});
 
         if (cursor.moveToFirst()) {
@@ -208,5 +209,14 @@ public class ReservationDao {
         db.delete(TABLE_NAME, "id = ?", new String[]{String.valueOf(reservationId)});
         db.close();
         return 1; // Returns 1 if successful, 0 if no row was found with that ID
+    }
+
+
+    // Delete all reservations for specific user
+    public boolean deleteAllUserReservations(String username) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(TABLE_NAME, "username = ?", new String[]{username});
+        db.close();
+        return true;
     }
 }
