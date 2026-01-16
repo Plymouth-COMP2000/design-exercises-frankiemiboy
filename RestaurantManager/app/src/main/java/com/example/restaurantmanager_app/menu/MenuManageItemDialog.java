@@ -1,8 +1,7 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.menu;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.menu.MenuItem;
 import com.example.restaurantmanager_app.data.menu.MenuService;
 

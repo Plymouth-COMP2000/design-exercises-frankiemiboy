@@ -1,4 +1,4 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.settings;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.restaurantmanager_app.LoginActivity;
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.user_management.AuthCallback;
 import com.example.restaurantmanager_app.user_management.SessionManager;
 import com.example.restaurantmanager_app.user_management.AuthManager;

@@ -1,4 +1,4 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,14 +16,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.restaurantmanager_app.LoginActivity;
+import com.example.restaurantmanager_app.notif_pref.NotificationPreferenceFragment;
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.notification.NotificationDao;
 import com.example.restaurantmanager_app.data.reservation.ReservationService;
 import com.example.restaurantmanager_app.user_management.AuthCallback;
 import com.example.restaurantmanager_app.user_management.AuthManager;
 import com.example.restaurantmanager_app.user_management.SessionManager;
 import com.example.restaurantmanager_app.user_management.User;
-
-import java.util.Objects;
 
 
 public class SettingsFragment extends Fragment {

@@ -1,5 +1,5 @@
 
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.home;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.MainActivity;
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.models.HomeCardItem;
 
 import java.util.List;

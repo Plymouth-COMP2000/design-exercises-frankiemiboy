@@ -1,4 +1,4 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.reservation;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.reservation.Reservation;
 import com.example.restaurantmanager_app.data.reservation.ReservationService;
 import com.example.restaurantmanager_app.user_management.SessionManager;

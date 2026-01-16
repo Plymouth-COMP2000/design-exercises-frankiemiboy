@@ -1,5 +1,5 @@
 
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.menu;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.menu.MenuItem;
 
 public class MenuGuestItemDetailsDialog extends DialogFragment {

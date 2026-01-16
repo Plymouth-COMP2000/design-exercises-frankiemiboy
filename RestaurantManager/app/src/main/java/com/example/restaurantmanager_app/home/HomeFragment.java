@@ -1,21 +1,17 @@
 
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.restaurantmanager_app.data.notification.Notification;
-import com.example.restaurantmanager_app.data.notification.NotificationDao;
-import com.example.restaurantmanager_app.user_management.SessionManager;
-
-import java.util.List;
+import com.example.restaurantmanager_app.HomeRecyclerViewManager;
+import com.example.restaurantmanager_app.R;
 
 public class HomeFragment extends Fragment {
 

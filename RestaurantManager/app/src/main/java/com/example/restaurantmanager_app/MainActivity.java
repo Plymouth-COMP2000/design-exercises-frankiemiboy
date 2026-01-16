@@ -10,6 +10,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.restaurantmanager_app.home.HomeFragment;
+import com.example.restaurantmanager_app.menu.MenuGuestFragment;
+import com.example.restaurantmanager_app.menu.MenuStaffFragment;
+import com.example.restaurantmanager_app.notifications.NotificationsFragment;
+import com.example.restaurantmanager_app.reservation.ReservationsFragment;
+import com.example.restaurantmanager_app.settings.SettingsFragment;
 import com.google.android.material.badge.BadgeDrawable;
 
 import com.example.restaurantmanager_app.data.notification.Notification;

@@ -1,5 +1,5 @@
 
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.menu;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.menu.MenuItem;
 import com.example.restaurantmanager_app.data.menu.MenuService;
 

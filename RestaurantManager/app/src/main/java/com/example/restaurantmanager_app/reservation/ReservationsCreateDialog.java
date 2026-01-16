@@ -1,4 +1,4 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.reservation;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.user_management.SessionManager;
 //import com.example.restaurantmanager_app.data.reservation.Reservation;
 import com.example.restaurantmanager_app.data.reservation.ReservationService;

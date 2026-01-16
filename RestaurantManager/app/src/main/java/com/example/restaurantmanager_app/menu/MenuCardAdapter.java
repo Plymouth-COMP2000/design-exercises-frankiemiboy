@@ -1,5 +1,5 @@
 
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.menu;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.menu.MenuItem;
 import com.example.restaurantmanager_app.user_management.SessionManager;
 

@@ -1,4 +1,4 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.notif_pref;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.restaurantmanager_app.R;
 
 public class NotificationPreferenceFragment extends DialogFragment {
 

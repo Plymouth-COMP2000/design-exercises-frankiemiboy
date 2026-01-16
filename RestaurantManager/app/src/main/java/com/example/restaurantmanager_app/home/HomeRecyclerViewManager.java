@@ -5,7 +5,13 @@ import android.content.Context;
 import android.view.View;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.restaurantmanager_app.home.HomeCardAdapter;
+import com.example.restaurantmanager_app.menu.MenuGuestFragment;
 import com.example.restaurantmanager_app.models.HomeCardItem;
+import com.example.restaurantmanager_app.notifications.NotificationsFragment;
+import com.example.restaurantmanager_app.reservation.ReservationsFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 

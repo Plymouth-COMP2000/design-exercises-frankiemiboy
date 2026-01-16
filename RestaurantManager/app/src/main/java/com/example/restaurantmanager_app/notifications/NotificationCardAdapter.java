@@ -1,4 +1,4 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.notifications;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.notification.Notification;
 import com.example.restaurantmanager_app.data.notification.NotificationDao;
 

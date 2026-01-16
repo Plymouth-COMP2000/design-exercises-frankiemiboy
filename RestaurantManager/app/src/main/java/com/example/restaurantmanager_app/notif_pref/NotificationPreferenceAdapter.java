@@ -1,4 +1,4 @@
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.notif_pref;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.notification.NotificationPreference;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 

@@ -1,5 +1,5 @@
 
-package com.example.restaurantmanager_app;
+package com.example.restaurantmanager_app.reservation;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurantmanager_app.R;
 import com.example.restaurantmanager_app.data.reservation.Reservation;
 
 import java.util.List;

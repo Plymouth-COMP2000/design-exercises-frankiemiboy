@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.restaurantmanager_app.NotificationsFragment;
 import com.example.restaurantmanager_app.data.DatabaseHelper;
 
 import java.text.SimpleDateFormat;
