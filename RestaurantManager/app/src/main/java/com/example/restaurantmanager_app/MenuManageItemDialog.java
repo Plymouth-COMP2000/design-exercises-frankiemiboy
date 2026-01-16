@@ -131,6 +131,19 @@ public class MenuManageItemDialog extends DialogFragment {
 
         });
 
+        deleteButton.setOnClickListener(v -> {
+            if (menuService.deleteExistingMenuItem(menuItem.getMenuItemId())) {
+                Toast.makeText(getContext(), "Menu item deleted successfully", Toast.LENGTH_SHORT).show();
+                Bundle result = new Bundle();
+                result.putBoolean("refresh_needed", true);
+                getParentFragmentManager().setFragmentResult("request_key_menu_update", result);
+            }
+            else {
+                Toast.makeText(getContext(), "Failed to delete menu item", Toast.LENGTH_SHORT).show();
+            }
+            dismiss();
+        });
+
         return view;
     }
 

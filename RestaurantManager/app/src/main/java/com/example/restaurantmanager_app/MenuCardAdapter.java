@@ -48,9 +48,8 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
 
         // Set a click listener on the item view.
         holder.itemView.setOnClickListener(v -> {
-            // When the item is clicked, create a new instance of the MenuItemDetailsDialog and show it.
-            // We pass the MenuItem to the newInstance method, which will be displayed in the dialog.
-            // We also need to get the FragmentManager from the context to show the dialog.
+
+            // Open dialog to add new menu item
             if (sessionManager.getRole().equals("guest")) {
                 MenuGuestItemDetailsDialog dialog = MenuGuestItemDetailsDialog.newInstance(item);
                 dialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "dialog_guest_menu_item");
@@ -82,5 +81,10 @@ public class MenuCardAdapter extends RecyclerView.Adapter<MenuCardAdapter.ItemVi
             descriptionView = itemView.findViewById(R.id.menuItemDescription);
             priceView = itemView.findViewById(R.id.menuItemPrice);
         }
+    }
+
+    public void updateData(List<MenuItem> newList) {
+        this.itemList = newList;
+        notifyDataSetChanged(); // Refresh the list
     }
 }

@@ -2,6 +2,8 @@ package com.example.restaurantmanager_app;
 
 import android.os.Bundle;
 import android.widget.Toast;
+import android.os.Looper;
+import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,11 +18,17 @@ import com.example.restaurantmanager_app.databinding.ActivityMainBinding;
 import com.example.restaurantmanager_app.user_management.SessionManager;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     SessionManager sessionManager;
+
+    // Threading for Badge Checks on Notifications Navigation Icon
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
 
     @Override
@@ -29,10 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment()); // Default page
-        binding.bottomNavigation.setSelectedItemId(R.id.homeFragment);
+
         sessionManager = new SessionManager(this);
-        checkNotifications();
+
+        if (savedInstanceState == null) {
+            replaceFragment(new HomeFragment()); // Default page
+            binding.bottomNavigation.setSelectedItemId(R.id.homeFragment);
+            checkNotifications();
+        }
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -64,15 +76,24 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
         fragmentTransaction.commit();
-
     }
 
     public void checkNotifications() {
         String username = sessionManager.getUsername();
 
-        NotificationDao notificationDao = new NotificationDao(this  );
-        List<Notification> unreadNotifications = notificationDao.getUnreadUserNotifications(username);
-        showNotificationBadge(unreadNotifications.size()); // Show number of unread notifications in the navigation bar
+        executor.execute(() -> {
+            NotificationDao notificationDao = new NotificationDao(this  );
+            List<Notification> unreadNotifications = notificationDao.getUnreadUserNotifications(username);
+            int notificationCount = unreadNotifications.size();
+            boolean hasUnreadNotifications = notificationCount > 0;
+
+            mainHandler.post(() -> {
+                if (hasUnreadNotifications) {
+                    Toast.makeText(this, "You have " + notificationCount + " unread notifications", Toast.LENGTH_SHORT).show();
+                }
+                showNotificationBadge(notificationCount);
+            });
+        });
     }
 
     // Shows the number of unread notifications a user has when logging in

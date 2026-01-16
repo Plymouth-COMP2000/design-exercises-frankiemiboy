@@ -40,7 +40,14 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
 
         holder.titleView.setText(notification.getTitle());
         holder.messageView.setText(notification.getMessage());
-        holder.dateView.setText(String.format("%s, %s", notification.getCreatedAt().substring(11, 16), notification.getCreatedAt().substring(0, 10)));
+        try{
+            // Try to format the date
+            holder.dateView.setText(String.format("%s, %s", notification.getCreatedAt().substring(11, 16), notification.getCreatedAt().substring(0, 10)));
+        }
+        catch (Exception e) {
+            holder.dateView.setText(notification.getCreatedAt());
+        }
+
         holder.markReadButton.setOnClickListener(v -> {
             // Update the Database
             NotificationDao notificationDao = new NotificationDao(context);
@@ -72,6 +79,11 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
             dateView = itemView.findViewById(R.id.notificationTime);
             markReadButton = itemView.findViewById(R.id.mark_read_button);
         }
+    }
+
+    public void updateData(List<Notification> newNotificationList) {
+        this.notificationList = newNotificationList;
+        notifyDataSetChanged(); // Refresh the list
     }
 }
 

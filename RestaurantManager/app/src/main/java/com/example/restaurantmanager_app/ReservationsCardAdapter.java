@@ -69,4 +69,10 @@ public class ReservationsCardAdapter extends RecyclerView.Adapter<ReservationsCa
             partySizeView = itemView.findViewById(R.id.partySize);
         }
     }
+
+    public void updateData(List<Reservation> newReservationList) {
+        this.reservations = newReservationList;
+        notifyDataSetChanged(); // Refresh the list
+    }
+
 }
